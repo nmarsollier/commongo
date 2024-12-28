@@ -92,6 +92,10 @@ github.com/nmarsollier/commongo/security/repository.go:79.55,81.2 1 0
 github.com/nmarsollier/commongo/security/repository.go:83.67,85.16 2 0
 github.com/nmarsollier/commongo/security/repository.go:85.16,87.3 1 0
 github.com/nmarsollier/commongo/security/repository.go:88.2,88.19 1 0
+github.com/nmarsollier/commongo/security/schema.go:11.54,12.34 1 0
+github.com/nmarsollier/commongo/security/schema.go:12.34,13.22 1 0
+github.com/nmarsollier/commongo/security/schema.go:13.22,15.4 1 0
+github.com/nmarsollier/commongo/security/schema.go:17.2,17.14 1 0
 github.com/nmarsollier/commongo/security/service.go:16.19,21.2 1 0
 github.com/nmarsollier/commongo/security/service.go:29.52,30.21 1 0
 github.com/nmarsollier/commongo/security/service.go:30.21,33.3 2 0
