@@ -1,8 +1,14 @@
 mode: set
-github.com/nmarsollier/commongo/rbt/rabbit_channel.go:16.26,18.16 2 0
-github.com/nmarsollier/commongo/rbt/rabbit_channel.go:18.16,21.3 2 0
-github.com/nmarsollier/commongo/rbt/rabbit_channel.go:23.2,24.16 2 0
-github.com/nmarsollier/commongo/rbt/rabbit_channel.go:24.16,27.3 2 0
-github.com/nmarsollier/commongo/rbt/rabbit_channel.go:29.2,29.40 1 0
-github.com/nmarsollier/commongo/rbt/rabbit_channel.go:39.9,49.2 1 0
-github.com/nmarsollier/commongo/rbt/rabbit_channel.go:54.9,63.2 1 0
+github.com/nmarsollier/commongo/rbt/publisher.go:28.31,30.16 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:30.16,33.3 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:35.2,36.16 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:36.16,39.3 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:41.2,47.8 1 0
+github.com/nmarsollier/commongo/rbt/publisher.go:50.54,60.2 1 0
+github.com/nmarsollier/commongo/rbt/publisher.go:62.52,64.16 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:64.16,67.3 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:69.2,75.16 3 0
+github.com/nmarsollier/commongo/rbt/publisher.go:75.16,78.3 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:80.2,89.16 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:89.16,92.3 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:94.2,96.12 2 0

@@ -69,9 +69,9 @@
 				
 				<option value="file6">github.com/nmarsollier/commongo/log/factory.go (0.0%)</option>
 				
-				<option value="file7">github.com/nmarsollier/commongo/log/logger.go (42.9%)</option>
+				<option value="file7">github.com/nmarsollier/commongo/log/logger.go (37.5%)</option>
 				
-				<option value="file8">github.com/nmarsollier/commongo/rbt/rabbit_channel.go (0.0%)</option>
+				<option value="file8">github.com/nmarsollier/commongo/rbt/publisher.go (0.0%)</option>
 				
 				<option value="file9">github.com/nmarsollier/commongo/test/mktools/cache.go (0.0%)</option>
 				
@@ -79,7 +79,7 @@
 				
 				<option value="file11">github.com/nmarsollier/commongo/test/mktools/mongo.go (0.0%)</option>
 				
-				<option value="file12">github.com/nmarsollier/commongo/test/mktools/rabbit.go (0.0%)</option>
+				<option value="file12">github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go (0.0%)</option>
 				
 				<option value="file13">github.com/nmarsollier/commongo/test/mktools/rest.go (0.0%)</option>
 				
@@ -90,8 +90,6 @@
 				<option value="file16">github.com/nmarsollier/commongo/test/mockgen/log_logger.go (0.0%)</option>
 				
 				<option value="file17">github.com/nmarsollier/commongo/test/mockgen/mongo_collection.go (0.0%)</option>
-				
-				<option value="file18">github.com/nmarsollier/commongo/test/mockgen/rbt_rabbit.go (0.0%)</option>
 				
 				</select>
 			</div>
@@ -515,6 +513,7 @@ import "github.com/sirupsen/logrus"
 
 type LogRusEntry interface {
         Data() logrus.Fields
+        CorrelationId() string
         Info(args ...interface{})
         Error(args ...interface{})
         Warn(args ...interface{})
@@ -550,24 +549,40 @@ func (l *logRusEntry) Fatal(args ...interface{}) <span class="cov0" title="0">{
 func (l *logRusEntry) Data() logrus.Fields <span class="cov8" title="1">{
         return l.entry.Data
 }</span>
+
+func (l *logRusEntry) CorrelationId() string <span class="cov0" title="0">{
+        return l.entry.Data[LOG_FIELD_CORRELATION_ID].(string)
+}</span>
 </pre>
 		
 		<pre class="file" id="file8" style="display: none">package rbt
 
 import (
+        "encoding/json"
+
         "github.com/nmarsollier/commongo/log"
         "github.com/streadway/amqp"
 )
 
-type RabbitChannel interface {
-        ExchangeDeclare(name string, chType string) error
-        Publish(exchange string, routingKey string, body []byte) error
+type RabbitPublisher[T any] interface {
+        Publish(data T) error
 }
 
-func NewRabbitChannel(
-        rabbitURL string,
+type rabbitPublisher[T any] struct {
+        ch           *amqp.Channel
+        log          log.LogRusEntry
+        exchangeName string
+        channelType  string
+        routingKey   string
+}
+
+func NewRabbitPublisher[T any](
         log log.LogRusEntry,
-) (RabbitChannel, error) <span class="cov0" title="0">{
+        rabbitURL string,
+        exchangeName string,
+        channelType string,
+        routingKey string,
+) (RabbitPublisher[T], error) <span class="cov0" title="0">{
         conn, err := amqp.Dial(rabbitURL)
         if err != nil </span><span class="cov0" title="0">{
                 log.Error(err)
@@ -580,41 +595,68 @@ func NewRabbitChannel(
                 return nil, err
         }</span>
 
-        <span class="cov0" title="0">return rabbitChannel{ch: channel}, nil</span>
+        <span class="cov0" title="0">return &amp;rabbitPublisher[T]{
+                ch:           channel,
+                exchangeName: exchangeName,
+                channelType:  channelType,
+                routingKey:   routingKey,
+                log:          log,
+        }, nil</span>
 }
 
-type rabbitChannel struct {
-        ch *amqp.Channel
-}
-
-func (c rabbitChannel) ExchangeDeclare(
-        name string,
-        chType string,
-) error <span class="cov0" title="0">{
+func (c *rabbitPublisher[T]) exchangeDeclare() error <span class="cov0" title="0">{
         return c.ch.ExchangeDeclare(
-                name,   // name
-                chType, // type
-                false,  // durable
-                false,  // auto-deleted
-                false,  // internal
-                false,  // no-wait
-                nil,    // arguments
+                c.exchangeName, // name
+                c.channelType,  // type
+                false,          // durable
+                false,          // auto-deleted
+                false,          // internal
+                false,          // no-wait
+                nil,            // arguments
         )
 }</span>
-func (c rabbitChannel) Publish(
-        exchange string,
-        routingKey string,
-        body []byte,
-) error <span class="cov0" title="0">{
-        return c.ch.Publish(
-                exchange,   // exchange
-                routingKey, // routing key
-                false,      // mandatory
-                false,      // immediate
+
+func (c *rabbitPublisher[T]) Publish(data T) error <span class="cov0" title="0">{
+        err := c.exchangeDeclare()
+        if err != nil </span><span class="cov0" title="0">{
+                c.log.Error(err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">send := publishMessage[T]{
+                CorrelationId: c.log.CorrelationId(),
+                Message:       data,
+        }
+
+        body, err := json.Marshal(send)
+        if err != nil </span><span class="cov0" title="0">{
+                c.log.Error(err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">err = c.ch.Publish(
+                c.exchangeName, // exchange
+                c.routingKey,   // routing key
+                false,          // mandatory
+                false,          // immediate
                 amqp.Publishing{
                         Body: body,
                 })
-}</span>
+
+        if err != nil </span><span class="cov0" title="0">{
+                c.log.Error(err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">c.log.Info("Rabbit publish", string(body))
+
+        return nil</span>
+}
+
+type publishMessage[T any] struct {
+        CorrelationId string `json:"correlation_id" example:"123123" `
+        Message       T      `json:"message" example:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbklEIjoiNjZiNjBlYzhlMGYzYzY4OTUzMzJlOWNmIiwidXNlcklEIjoiNjZhZmQ3ZWU4YTBhYjRjZjQ0YTQ3NDcyIn0.who7upBctOpmlVmTvOgH1qFKOHKXmuQCkEjMV3qeySg" `
+}
 </pre>
 		
 		<pre class="file" id="file9" style="display: none">// FILE AUTOMATICALLY GENERATED. ADAPTER TO USE GENERICS
@@ -753,17 +795,53 @@ func ExpectFindOne[T any](coll *mockgen.MockCollection, userData *T, times int) 
 }
 </pre>
 		
-		<pre class="file" id="file12" style="display: none">package mktools
+		<pre class="file" id="file12" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+// Source: ./internal/rabbit/publisher.go
+
+// Package mockgen is a generated GoMock package.
+package mktools
 
 import (
-        "github.com/golang/mock/gomock"
-        "github.com/nmarsollier/commongo/test/mockgen"
+        reflect "reflect"
+
+        gomock "github.com/golang/mock/gomock"
 )
 
-func DefaultMockRabbitChannel(ctrl *gomock.Controller, times int) *mockgen.MockRabbitChannel <span class="cov0" title="0">{
-        channel := mockgen.NewMockRabbitChannel(ctrl)
-        channel.EXPECT().ExchangeDeclare(gomock.Any(), gomock.Any()).Return(nil).Times(times)
-        return channel
+// MockRabbitPublisher is a mock of RabbitPublisher interface.
+type MockRabbitPublisher[T any] struct {
+        ctrl     *gomock.Controller
+        recorder *MockRabbitPublisherMockRecorder[T]
+}
+
+// MockRabbitPublisherMockRecorder is the mock recorder for MockRabbitPublisher.
+type MockRabbitPublisherMockRecorder[T any] struct {
+        mock *MockRabbitPublisher[T]
+}
+
+// NewMockRabbitPublisher creates a new mock instance.
+func NewMockRabbitPublisher[T any](ctrl *gomock.Controller) *MockRabbitPublisher[T] <span class="cov0" title="0">{
+        mock := &amp;MockRabbitPublisher[T]{ctrl: ctrl}
+        mock.recorder = &amp;MockRabbitPublisherMockRecorder[T]{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRabbitPublisher[T]) EXPECT() *MockRabbitPublisherMockRecorder[T] <span class="cov0" title="0">{
+        return m.recorder
+}</span>
+
+// Publish mocks base method.
+func (m *MockRabbitPublisher[T]) Publish(data T) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Publish", data)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// Publish indicates an expected call of Publish.
+func (mr *MockRabbitPublisherMockRecorder[T]) Publish(data interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Publish", reflect.TypeOf((*MockRabbitPublisher[T])(nil).Publish), data)
 }</span>
 </pre>
 		
@@ -991,6 +1069,20 @@ func NewMockLogRusEntry(ctrl *gomock.Controller) *MockLogRusEntry <span class="c
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockLogRusEntry) EXPECT() *MockLogRusEntryMockRecorder <span class="cov0" title="0">{
         return m.recorder
+}</span>
+
+// CorrelationId mocks base method.
+func (m *MockLogRusEntry) CorrelationId() string <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "CorrelationId")
+        ret0, _ := ret[0].(string)
+        return ret0
+}</span>
+
+// CorrelationId indicates an expected call of CorrelationId.
+func (mr *MockLogRusEntryMockRecorder) CorrelationId() *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CorrelationId", reflect.TypeOf((*MockLogRusEntry)(nil).CorrelationId))
 }</span>
 
 // Data mocks base method.
@@ -1245,70 +1337,6 @@ func (m *MockCursor) Next(ctx context.Context) bool <span class="cov0" title="0"
 func (mr *MockCursorMockRecorder) Next(ctx interface{}) *gomock.Call <span class="cov0" title="0">{
         mr.mock.ctrl.T.Helper()
         return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Next", reflect.TypeOf((*MockCursor)(nil).Next), ctx)
-}</span>
-</pre>
-		
-		<pre class="file" id="file18" style="display: none">// Code generated by MockGen. DO NOT EDIT.
-// Source: ./rbt/rabbit_channel.go
-
-// Package mockgen is a generated GoMock package.
-package mockgen
-
-import (
-        reflect "reflect"
-
-        gomock "github.com/golang/mock/gomock"
-)
-
-// MockRabbitChannel is a mock of RabbitChannel interface.
-type MockRabbitChannel struct {
-        ctrl     *gomock.Controller
-        recorder *MockRabbitChannelMockRecorder
-}
-
-// MockRabbitChannelMockRecorder is the mock recorder for MockRabbitChannel.
-type MockRabbitChannelMockRecorder struct {
-        mock *MockRabbitChannel
-}
-
-// NewMockRabbitChannel creates a new mock instance.
-func NewMockRabbitChannel(ctrl *gomock.Controller) *MockRabbitChannel <span class="cov0" title="0">{
-        mock := &amp;MockRabbitChannel{ctrl: ctrl}
-        mock.recorder = &amp;MockRabbitChannelMockRecorder{mock}
-        return mock
-}</span>
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRabbitChannel) EXPECT() *MockRabbitChannelMockRecorder <span class="cov0" title="0">{
-        return m.recorder
-}</span>
-
-// ExchangeDeclare mocks base method.
-func (m *MockRabbitChannel) ExchangeDeclare(name, chType string) error <span class="cov0" title="0">{
-        m.ctrl.T.Helper()
-        ret := m.ctrl.Call(m, "ExchangeDeclare", name, chType)
-        ret0, _ := ret[0].(error)
-        return ret0
-}</span>
-
-// ExchangeDeclare indicates an expected call of ExchangeDeclare.
-func (mr *MockRabbitChannelMockRecorder) ExchangeDeclare(name, chType interface{}) *gomock.Call <span class="cov0" title="0">{
-        mr.mock.ctrl.T.Helper()
-        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExchangeDeclare", reflect.TypeOf((*MockRabbitChannel)(nil).ExchangeDeclare), name, chType)
-}</span>
-
-// Publish mocks base method.
-func (m *MockRabbitChannel) Publish(exchange, routingKey string, body []byte) error <span class="cov0" title="0">{
-        m.ctrl.T.Helper()
-        ret := m.ctrl.Call(m, "Publish", exchange, routingKey, body)
-        ret0, _ := ret[0].(error)
-        return ret0
-}</span>
-
-// Publish indicates an expected call of Publish.
-func (mr *MockRabbitChannelMockRecorder) Publish(exchange, routingKey, body interface{}) *gomock.Call <span class="cov0" title="0">{
-        mr.mock.ctrl.T.Helper()
-        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Publish", reflect.TypeOf((*MockRabbitChannel)(nil).Publish), exchange, routingKey, body)
 }</span>
 </pre>
 		

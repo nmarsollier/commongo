@@ -7,9 +7,10 @@ github.com/nmarsollier/commongo/log/factory.go:61.16,63.3 1 0
 github.com/nmarsollier/commongo/log/factory.go:64.2,64.12 1 0
 github.com/nmarsollier/commongo/log/factory.go:67.59,69.2 1 0
 github.com/nmarsollier/commongo/log/factory.go:71.49,74.2 2 0
-github.com/nmarsollier/commongo/log/logger.go:18.50,20.2 1 0
-github.com/nmarsollier/commongo/log/logger.go:22.76,25.2 2 1
-github.com/nmarsollier/commongo/log/logger.go:27.49,29.2 1 0
-github.com/nmarsollier/commongo/log/logger.go:31.49,33.2 1 0
-github.com/nmarsollier/commongo/log/logger.go:35.50,37.2 1 0
-github.com/nmarsollier/commongo/log/logger.go:39.44,41.2 1 1
+github.com/nmarsollier/commongo/log/logger.go:19.50,21.2 1 0
+github.com/nmarsollier/commongo/log/logger.go:23.76,26.2 2 1
+github.com/nmarsollier/commongo/log/logger.go:28.49,30.2 1 0
+github.com/nmarsollier/commongo/log/logger.go:32.49,34.2 1 0
+github.com/nmarsollier/commongo/log/logger.go:36.50,38.2 1 0
+github.com/nmarsollier/commongo/log/logger.go:40.44,42.2 1 1
+github.com/nmarsollier/commongo/log/logger.go:44.46,46.2 1 0
