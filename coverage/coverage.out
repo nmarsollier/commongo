@@ -73,6 +73,9 @@ github.com/nmarsollier/commongo/rbt/publisher.go:75.16,78.3 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:80.2,89.16 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:89.16,92.3 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:94.2,96.12 2 0
+github.com/nmarsollier/commongo/redisx/client.go:20.15,26.2 1 0
+github.com/nmarsollier/commongo/redisx/client.go:28.55,30.2 1 0
+github.com/nmarsollier/commongo/redisx/client.go:32.100,34.2 1 0
 github.com/nmarsollier/commongo/strs/json.go:5.37,8.2 2 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:22.65,26.2 3 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:29.59,31.2 1 0
@@ -158,3 +161,9 @@ github.com/nmarsollier/commongo/test/mockgen/mongo_collection.go:135.52,140.2 4 
 github.com/nmarsollier/commongo/test/mockgen/mongo_collection.go:143.72,146.2 2 0
 github.com/nmarsollier/commongo/test/mockgen/mongo_collection.go:149.53,154.2 4 0
 github.com/nmarsollier/commongo/test/mockgen/mongo_collection.go:157.70,160.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:26.67,30.2 3 0
+github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:33.65,35.2 1 0
+github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:38.59,44.2 5 0
+github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:47.74,50.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:53.104,59.2 5 0
+github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:62.93,65.2 2 0
