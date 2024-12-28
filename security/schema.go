@@ -7,3 +7,12 @@ type User struct {
 	Permissions []string `json:"permissions"`
 	Login       string   `json:"login"  validate:"required"`
 }
+
+func (u *User) HasPermission(permission string) bool {
+	for _, p := range u.Permissions {
+		if p == permission {
+			return true
+		}
+	}
+	return false
+}
