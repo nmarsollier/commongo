@@ -80,6 +80,16 @@ github.com/nmarsollier/commongo/test/mktools/generic.go:20.79,22.2 1 0
 github.com/nmarsollier/commongo/test/mktools/generic.go:24.63,26.2 1 0
 github.com/nmarsollier/commongo/test/mktools/logger.go:10.158,23.2 8 0
 github.com/nmarsollier/commongo/test/mktools/rabbit.go:8.94,12.2 3 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:14.97,16.26 2 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:16.26,18.3 1 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:19.2,20.15 2 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:23.116,27.26 3 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:27.26,29.3 1 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:30.2,31.15 2 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:35.69,42.2 4 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:44.73,50.2 4 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:52.76,54.2 1 0
+github.com/nmarsollier/commongo/test/mktools/rest.go:56.72,58.2 1 0
 github.com/nmarsollier/commongo/test/mockgen/errs_rest.go:25.63,29.2 3 0
 github.com/nmarsollier/commongo/test/mockgen/errs_rest.go:32.61,34.2 1 0
 github.com/nmarsollier/commongo/test/mockgen/errs_rest.go:37.40,42.2 4 0
