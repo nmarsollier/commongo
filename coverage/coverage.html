@@ -75,9 +75,9 @@
 				
 				<option value="file9">github.com/nmarsollier/commongo/test/mktools/cache.go (0.0%)</option>
 				
-				<option value="file10">github.com/nmarsollier/commongo/test/mktools/generic.go (0.0%)</option>
+				<option value="file10">github.com/nmarsollier/commongo/test/mktools/logger.go (0.0%)</option>
 				
-				<option value="file11">github.com/nmarsollier/commongo/test/mktools/logger.go (0.0%)</option>
+				<option value="file11">github.com/nmarsollier/commongo/test/mktools/mongo.go (0.0%)</option>
 				
 				<option value="file12">github.com/nmarsollier/commongo/test/mktools/rabbit.go (0.0%)</option>
 				
@@ -695,6 +695,31 @@ func (mr *MockCacheMockRecorder[T]) Remove(key interface{}) *gomock.Call <span c
 
 import (
         "github.com/golang/mock/gomock"
+        "github.com/nmarsollier/commongo/log"
+        "github.com/nmarsollier/commongo/test/mockgen"
+        "github.com/sirupsen/logrus"
+)
+
+func NewTestLogger(ctrl *gomock.Controller, withFieldCount int, errorCount int, infoCount int, dataCount int, warnCount int, fatalCount int) log.LogRusEntry <span class="cov0" title="0">{
+        logger := mockgen.NewMockLogRusEntry(ctrl)
+        logger.EXPECT().WithField(gomock.Any(), gomock.Any()).Return(logger).Times(withFieldCount)
+        logger.EXPECT().Error(gomock.Any()).Return().Times(errorCount)
+        logger.EXPECT().Info(gomock.Any()).Return().Times(infoCount)
+        logger.EXPECT().Warn(gomock.Any()).Return().Times(warnCount)
+        logger.EXPECT().Fatal(gomock.Any()).Return().Times(fatalCount)
+
+        logger.EXPECT().Data().Return(logrus.Fields{
+                log.LOG_FIELD_CORRELATION_ID: "correlationId",
+        }).Times(dataCount)
+
+        return logger
+}</span>
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package mktools
+
+import (
+        gomock "github.com/golang/mock/gomock"
         "github.com/nmarsollier/commongo/test/mockgen"
 )
 
@@ -717,31 +742,15 @@ func ExpectInsertOneError(coll *mockgen.MockCollection, err error, times int) <s
 func ExpectInsertOne(coll *mockgen.MockCollection, times int) <span class="cov0" title="0">{
         coll.EXPECT().InsertOne(gomock.Any(), gomock.Any()).Return("", nil).Times(times)
 }</span>
-</pre>
-		
-		<pre class="file" id="file11" style="display: none">package mktools
 
-import (
-        "github.com/golang/mock/gomock"
-        "github.com/nmarsollier/commongo/log"
-        "github.com/nmarsollier/commongo/test/mockgen"
-        "github.com/sirupsen/logrus"
-)
-
-func NewTestLogger(ctrl *gomock.Controller, withFieldCount int, errorCount int, infoCount int, dataCount int, warnCount int, fatalCount int) log.LogRusEntry <span class="cov0" title="0">{
-        logger := mockgen.NewMockLogRusEntry(ctrl)
-        logger.EXPECT().WithField(gomock.Any(), gomock.Any()).Return(logger).Times(withFieldCount)
-        logger.EXPECT().Error(gomock.Any()).Return().Times(errorCount)
-        logger.EXPECT().Info(gomock.Any()).Return().Times(infoCount)
-        logger.EXPECT().Warn(gomock.Any()).Return().Times(warnCount)
-        logger.EXPECT().Fatal(gomock.Any()).Return().Times(fatalCount)
-
-        logger.EXPECT().Data().Return(logrus.Fields{
-                log.LOG_FIELD_CORRELATION_ID: "correlationId",
-        }).Times(dataCount)
-
-        return logger
-}</span>
+func ExpectFindOne[T any](coll *mockgen.MockCollection, userData *T, times int) <span class="cov0" title="0">{
+        coll.EXPECT().FindOne(gomock.Any(), gomock.Any(), gomock.Any()).DoAndReturn(
+                func(arg1 interface{}, params interface{}, update *T) error </span><span class="cov0" title="0">{
+                        *update = *userData
+                        return nil
+                }</span>,
+        ).Times(times)
+}
 </pre>
 		
 		<pre class="file" id="file12" style="display: none">package mktools
