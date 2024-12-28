@@ -59,3 +59,17 @@ github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:38.59,44.2 5 0
 github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:47.74,50.2 2 0
 github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:53.104,59.2 5 0
 github.com/nmarsollier/commongo/test/mockgen/redisx_client.go:62.93,65.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/security_repository.go:26.81,30.2 3 0
+github.com/nmarsollier/commongo/test/mockgen/security_repository.go:33.79,35.2 1 0
+github.com/nmarsollier/commongo/test/mockgen/security_repository.go:38.59,41.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/security_repository.go:44.90,47.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/security_repository.go:50.87,56.2 5 0
+github.com/nmarsollier/commongo/test/mockgen/security_repository.go:59.94,62.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/security_repository.go:65.80,71.2 5 0
+github.com/nmarsollier/commongo/test/mockgen/security_repository.go:74.88,77.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/security_service.go:26.75,30.2 3 0
+github.com/nmarsollier/commongo/test/mockgen/security_service.go:33.73,35.2 1 0
+github.com/nmarsollier/commongo/test/mockgen/security_service.go:38.56,41.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/security_service.go:44.87,47.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/security_service.go:50.78,56.2 5 0
+github.com/nmarsollier/commongo/test/mockgen/security_service.go:59.85,62.2 2 0

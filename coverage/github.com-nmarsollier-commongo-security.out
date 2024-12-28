@@ -1,0 +1,26 @@
+mode: set
+github.com/nmarsollier/commongo/security/repository.go:24.22,31.2 1 0
+github.com/nmarsollier/commongo/security/repository.go:40.74,43.16 2 0
+github.com/nmarsollier/commongo/security/repository.go:43.16,46.3 2 0
+github.com/nmarsollier/commongo/security/repository.go:48.2,49.75 2 0
+github.com/nmarsollier/commongo/security/repository.go:49.75,51.3 1 0
+github.com/nmarsollier/commongo/security/repository.go:53.2,54.42 2 0
+github.com/nmarsollier/commongo/security/repository.go:54.42,57.3 2 0
+github.com/nmarsollier/commongo/security/repository.go:58.2,62.16 4 0
+github.com/nmarsollier/commongo/security/repository.go:62.16,65.3 2 0
+github.com/nmarsollier/commongo/security/repository.go:67.2,68.46 2 0
+github.com/nmarsollier/commongo/security/repository.go:68.46,71.3 2 0
+github.com/nmarsollier/commongo/security/repository.go:74.2,76.18 2 0
+github.com/nmarsollier/commongo/security/repository.go:79.55,81.2 1 0
+github.com/nmarsollier/commongo/security/repository.go:83.67,85.16 2 0
+github.com/nmarsollier/commongo/security/repository.go:85.16,87.3 1 0
+github.com/nmarsollier/commongo/security/repository.go:88.2,88.19 1 0
+github.com/nmarsollier/commongo/security/service.go:16.19,21.2 1 0
+github.com/nmarsollier/commongo/security/service.go:29.52,30.21 1 0
+github.com/nmarsollier/commongo/security/service.go:30.21,33.3 2 0
+github.com/nmarsollier/commongo/security/service.go:35.2,36.41 2 0
+github.com/nmarsollier/commongo/security/service.go:40.65,42.44 1 0
+github.com/nmarsollier/commongo/security/service.go:42.44,44.3 1 0
+github.com/nmarsollier/commongo/security/service.go:46.2,47.16 2 0
+github.com/nmarsollier/commongo/security/service.go:47.16,49.3 1 0
+github.com/nmarsollier/commongo/security/service.go:51.2,51.18 1 0
