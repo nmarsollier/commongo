@@ -1,0 +1,1273 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>cache: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/nmarsollier/commongo/pkg/cache/cache.go (100.0%)</option>
+				
+				<option value="file1">github.com/nmarsollier/commongo/pkg/db/collection.go (0.0%)</option>
+				
+				<option value="file2">github.com/nmarsollier/commongo/pkg/db/database.go (0.0%)</option>
+				
+				<option value="file3">github.com/nmarsollier/commongo/pkg/db/tools.go (0.0%)</option>
+				
+				<option value="file4">github.com/nmarsollier/commongo/pkg/errs/rest.go (33.3%)</option>
+				
+				<option value="file5">github.com/nmarsollier/commongo/pkg/errs/validation.go (0.0%)</option>
+				
+				<option value="file6">github.com/nmarsollier/commongo/pkg/log/factory.go (0.0%)</option>
+				
+				<option value="file7">github.com/nmarsollier/commongo/pkg/log/logger.go (42.9%)</option>
+				
+				<option value="file8">github.com/nmarsollier/commongo/pkg/rbt/rabbit_channel.go (0.0%)</option>
+				
+				<option value="file9">github.com/nmarsollier/commongo/test/mktools/cache.go (0.0%)</option>
+				
+				<option value="file10">github.com/nmarsollier/commongo/test/mktools/generic.go (0.0%)</option>
+				
+				<option value="file11">github.com/nmarsollier/commongo/test/mktools/logger.go (0.0%)</option>
+				
+				<option value="file12">github.com/nmarsollier/commongo/test/mktools/rabbit.go (0.0%)</option>
+				
+				<option value="file13">github.com/nmarsollier/commongo/test/mockgen/errs_rest.go (0.0%)</option>
+				
+				<option value="file14">github.com/nmarsollier/commongo/test/mockgen/errs_validation.go (0.0%)</option>
+				
+				<option value="file15">github.com/nmarsollier/commongo/test/mockgen/log_logger.go (0.0%)</option>
+				
+				<option value="file16">github.com/nmarsollier/commongo/test/mockgen/mongo_collection.go (0.0%)</option>
+				
+				<option value="file17">github.com/nmarsollier/commongo/test/mockgen/rbt_rabbit.go (0.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package token
+
+import (
+        "time"
+
+        "github.com/nmarsollier/commongo/pkg/errs"
+        gocache "github.com/patrickmn/go-cache"
+)
+
+type Cache[T any] interface {
+        Add(key string, value *T) error
+        Get(key string) (*T, error)
+        Remove(key string)
+}
+
+// NewCache creates a new instance of Cache with a specified type.
+// It initializes the cache with a default expiration time of 60 minutes
+// and a cleanup interval of 10 minutes.
+//
+// T: The type of the items to be stored in the cache.
+//
+// Returns:
+//
+//        A new instance of Cache with the specified type.
+func NewCache[T any]() Cache[T] <span class="cov8" title="1">{
+        return &amp;theCache[T]{
+                cache: gocache.New(60*time.Minute, 10*time.Minute),
+        }
+}</span>
+
+type theCache[T any] struct {
+        cache *gocache.Cache
+}
+
+func (c *theCache[T]) Add(key string, value *T) error <span class="cov8" title="1">{
+        c.cache.Set(key, value, gocache.DefaultExpiration)
+        return nil
+}</span>
+
+func (c *theCache[T]) Get(key string) (*T, error) <span class="cov8" title="1">{
+        if found, ok := c.cache.Get(key); ok </span><span class="cov8" title="1">{
+                if token, ok := found.(*T); ok </span><span class="cov8" title="1">{
+                        return token, nil
+                }</span>
+        }
+
+        <span class="cov8" title="1">return nil, errs.NotFound</span>
+}
+
+func (c *theCache[T]) Remove(key string) <span class="cov8" title="1">{
+        c.cache.Delete(key)
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package db
+
+import (
+        "context"
+
+        "github.com/nmarsollier/commongo/pkg/log"
+        "go.mongodb.org/mongo-driver/bson"
+        "go.mongodb.org/mongo-driver/mongo"
+)
+
+type Collection interface {
+        FindOne(ctx context.Context, filter interface{}, v interface{}) error
+
+        InsertOne(ctx context.Context, document interface{}) (id interface{}, error error)
+
+        UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error)
+
+        Find(ctx context.Context, filter interface{}) (cur Cursor, err error)
+}
+
+func NewCollection(
+        log log.LogRusEntry,
+        database *mongo.Database,
+        collectionName string,
+        indexes ...string,
+) (col Collection, err error) <span class="cov0" title="0">{
+        collection := database.Collection(collectionName)
+
+        for _, index := range indexes </span><span class="cov0" title="0">{
+                _, err = collection.Indexes().CreateOne(
+                        context.Background(),
+                        mongo.IndexModel{
+                                Keys:    bson.M{index: 1},
+                                Options: nil,
+                        },
+                )
+                if err != nil </span><span class="cov0" title="0">{
+                        log.Info(err)
+                        return nil, err
+                }</span>
+        }
+        <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                log.Error(err)
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return &amp;mongoCollection{
+                collection: collection,
+        }, nil</span>
+}
+
+type mongoCollection struct {
+        collection *mongo.Collection
+}
+
+func (m *mongoCollection) FindOne(ctx context.Context, filter interface{}, v interface{}) error <span class="cov0" title="0">{
+        if err := m.collection.FindOne(context.Background(), filter).Decode(v); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (m *mongoCollection) InsertOne(ctx context.Context, document interface{}) (id interface{}, error error) <span class="cov0" title="0">{
+        insertedId, err := m.collection.InsertOne(context.Background(), document)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return insertedId.InsertedID, nil</span>
+}
+
+func (m *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error) <span class="cov0" title="0">{
+        insertedId, err := m.collection.UpdateOne(context.Background(), filter, update)
+        if err != nil </span><span class="cov0" title="0">{
+                return 0, err
+        }</span>
+        <span class="cov0" title="0">return insertedId.ModifiedCount, nil</span>
+}
+
+func (m *mongoCollection) Find(ctx context.Context, filter interface{}) (cur Cursor, err error) <span class="cov0" title="0">{
+        cursor, err := m.collection.Find(context.Background(), filter)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return NewCursor(cursor), nil</span>
+}
+
+type Cursor interface {
+        Close(ctx context.Context) error
+        Next(ctx context.Context) bool
+        Decode(val interface{}) error
+}
+
+func NewCursor(cursor *mongo.Cursor) Cursor <span class="cov0" title="0">{
+        return &amp;mongoCursor{
+                cursor: cursor,
+        }
+}</span>
+
+type mongoCursor struct {
+        cursor *mongo.Cursor
+}
+
+func (c *mongoCursor) Close(ctx context.Context) error <span class="cov0" title="0">{
+        return c.cursor.Close(ctx)
+}</span>
+
+func (c *mongoCursor) Next(ctx context.Context) bool <span class="cov0" title="0">{
+        return c.cursor.Next(ctx)
+}</span>
+func (c *mongoCursor) Decode(val interface{}) error <span class="cov0" title="0">{
+        return c.cursor.Decode(val)
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package db
+
+import (
+        "context"
+
+        "go.mongodb.org/mongo-driver/mongo"
+        "go.mongodb.org/mongo-driver/mongo/options"
+)
+
+// NewDatabase the mongo database
+func NewDatabase(
+        mongoUrl string,
+        name string,
+) (*mongo.Database, error) <span class="cov0" title="0">{
+        clientOptions := options.Client().ApplyURI(mongoUrl)
+
+        client, err := mongo.Connect(context.TODO(), clientOptions)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">database := client.Database(name)
+
+        return database, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package db
+
+import (
+        "go.mongodb.org/mongo-driver/mongo"
+)
+
+// IsDbUniqueKeyError retorna true si el error es de indice único
+func IsDbUniqueKeyError(err error) bool <span class="cov0" title="0">{
+        if wErr, ok := err.(mongo.WriteException); ok </span><span class="cov0" title="0">{
+                for i := 0; i &lt; len(wErr.WriteErrors); i++ </span><span class="cov0" title="0">{
+                        if wErr.WriteErrors[i].Code == 11000 </span><span class="cov0" title="0">{
+                                return true
+                        }</span>
+                }
+        }
+        <span class="cov0" title="0">return false</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package errs
+
+// Unauthorized is a predefined error for unauthorized access (HTTP 401).
+var Unauthorized = NewRestError(401, "Unauthorized")
+
+// NotFound is a predefined error for a document not found (HTTP 404).
+var NotFound = NewRestError(404, "Document not found")
+
+// AlreadyExist is a predefined error for a resource that already exists (HTTP 400).
+var AlreadyExist = NewRestError(400, "Already exist")
+
+// Internal is a predefined error for internal server errors (HTTP 500).
+var Internal = NewRestError(500, "Internal server error")
+
+// NewRestError creates a new RestError with the given status code and message.
+func NewRestError(status int, message string) RestError <span class="cov8" title="1">{
+        return &amp;restError{
+                status:  status,
+                Message: message,
+        }
+}</span>
+
+// RestError is an interface that defines methods for RESTful errors.
+type RestError interface {
+        Status() int
+        Error() string
+}
+
+// restError is a struct that implements the RestError interface.
+type restError struct {
+        status  int
+        Message string `json:"error"`
+}
+
+// Error returns the error message.
+func (e *restError) Error() string <span class="cov0" title="0">{
+        return e.Message
+}</span>
+
+// Status returns the HTTP status code.
+func (e *restError) Status() int <span class="cov0" title="0">{
+        return e.status
+}</span>
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package errs
+
+import (
+        "encoding/json"
+)
+
+// Validation represents an interface for handling validation errors.
+// It provides methods to add validation errors and retrieve the error message.
+//
+// Add adds a validation error with the specified path and message.
+// It returns the updated Validation instance.
+//
+// Error returns a string representation of the validation errors.
+type Validation interface {
+        Add(path string, message string) Validation
+        Error() string
+}
+
+// NewValidation creates a new instance of ValidationErr with an empty list of error messages.
+// It returns the Validation interface implemented by ValidationErr.
+func NewValidation() Validation <span class="cov0" title="0">{
+        return &amp;ValidationErr{
+                Messages: []errField{},
+        }
+}</span>
+
+// ValidationErr represents a validation error that contains a list of error messages.
+type ValidationErr struct {
+        Messages []errField `json:"messages"`
+}
+
+// Error implements the error interface for ValidationErr.
+func (e *ValidationErr) Error() string <span class="cov0" title="0">{
+        body, err := json.Marshal(e)
+        if err != nil </span><span class="cov0" title="0">{
+                return "ErrValidation invalid."
+        }</span>
+        <span class="cov0" title="0">return string(body)</span>
+}
+
+// Add appends a new validation error message to the ValidationErr instance.
+// It takes a path and a message as parameters, creates an errField with these values,
+// and adds it to the Messages slice of the ValidationErr instance.
+// It returns the updated ValidationErr instance.
+//
+// Parameters:
+//   - path: The path or field name where the validation error occurred.
+//   - message: The validation error message.
+//
+// Returns:
+//   - Validation: The updated ValidationErr instance with the new error message added.
+func (e *ValidationErr) Add(path string, message string) Validation <span class="cov0" title="0">{
+        err := errField{
+                Path:    path,
+                Message: message,
+        }
+        e.Messages = append(e.Messages, err)
+        return e
+}</span>
+
+// errField represents a validation error for a specific field.
+// Path indicates the location of the field that caused the error.
+// Message provides a description of the validation error.
+type errField struct {
+        Path    string `json:"path"`
+        Message string `json:"message"`
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package log
+
+import (
+        "fmt"
+        "net"
+
+        uuid "github.com/satori/go.uuid"
+        "github.com/sirupsen/logrus"
+)
+
+const LOG_FIELD_CORRELATION_ID = "correlation_id"
+const LOG_FIELD_CONTROLLER = "controller"
+const LOG_FIELD_RABBIT_ACTION = "rabbit_action"
+const LOG_FIELD_RABBIT_EXCHANGE = "exchange"
+const LOG_FIELD_RABBIT_QUEUE = "queue"
+const LOG_FIELD_HTTP_METHOD = "http_method"
+const LOG_FIELD_HTTP_PATH = "http_path"
+const LOG_FIELD_HTTP_STATUS = "http_status"
+const LOG_FIELD_SERVER = "server"
+const LOG_FIELD_USER_ID = "user_id"
+const LOG_FIELD_THREAD = "thread"
+
+func Get(
+        fluentUrl string,
+        serverName string,
+) LogRusEntry <span class="cov0" title="0">{
+        logger := logrus.New()
+        configureFluent(logger, fluentUrl)
+
+        logger.SetLevel(logrus.DebugLevel)
+        logEntry := logger.
+                WithField(LOG_FIELD_SERVER, serverName).
+                WithField(LOG_FIELD_THREAD, uuid.NewV4().String())
+
+        return &amp;logRusEntry{entry: logEntry}
+}</span>
+
+func configureFluent(logger *logrus.Logger, fluentUrl string) <span class="cov0" title="0">{
+        conn, err := net.Dial("tcp", fluentUrl)
+        if err == nil </span><span class="cov0" title="0">{
+                logger.SetFormatter(&amp;logrus.JSONFormatter{})
+                logger.SetOutput(conn)
+                logger.AddHook(&amp;logrusConnectionHook{
+                        conn: conn,
+                        fmt: &amp;logrus.TextFormatter{
+                                FullTimestamp:  true,
+                                ForceColors:    true,
+                                DisableSorting: false,
+                        },
+                })
+        }</span>
+}
+
+type logrusConnectionHook struct {
+        conn net.Conn
+        fmt  logrus.Formatter
+}
+
+func (hook *logrusConnectionHook) Fire(entry *logrus.Entry) error <span class="cov0" title="0">{
+        msg, err := hook.fmt.Format(entry)
+        if err == nil </span><span class="cov0" title="0">{
+                fmt.Println(string(msg))
+        }</span>
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (hook *logrusConnectionHook) Levels() []logrus.Level <span class="cov0" title="0">{
+        return logrus.AllLevels
+}</span>
+
+func (hook *logrusConnectionHook) Close() error <span class="cov0" title="0">{
+        hook.conn.Close()
+        return nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package log
+
+import "github.com/sirupsen/logrus"
+
+type LogRusEntry interface {
+        Data() logrus.Fields
+        Info(args ...interface{})
+        Error(args ...interface{})
+        Warn(args ...interface{})
+        Fatal(args ...interface{})
+        WithField(key string, value interface{}) LogRusEntry
+}
+
+type logRusEntry struct {
+        entry *logrus.Entry
+}
+
+func (l *logRusEntry) Error(args ...interface{}) <span class="cov0" title="0">{
+        l.entry.Error(args...)
+}</span>
+
+func (l *logRusEntry) WithField(key string, value interface{}) LogRusEntry <span class="cov8" title="1">{
+        l.entry = l.entry.WithField(key, value)
+        return l
+}</span>
+
+func (l *logRusEntry) Info(args ...interface{}) <span class="cov0" title="0">{
+        l.entry.Info(args...)
+}</span>
+
+func (l *logRusEntry) Warn(args ...interface{}) <span class="cov0" title="0">{
+        l.entry.Warn(args...)
+}</span>
+
+func (l *logRusEntry) Fatal(args ...interface{}) <span class="cov0" title="0">{
+        l.entry.Fatal(args...)
+}</span>
+
+func (l *logRusEntry) Data() logrus.Fields <span class="cov8" title="1">{
+        return l.entry.Data
+}</span>
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package rbt
+
+import (
+        "github.com/nmarsollier/commongo/pkg/log"
+        "github.com/streadway/amqp"
+)
+
+type RabbitChannel interface {
+        ExchangeDeclare(name string, chType string) error
+        Publish(exchange string, routingKey string, body []byte) error
+}
+
+func NewRabbitChannel(
+        rabbitURL string,
+        log log.LogRusEntry,
+) (RabbitChannel, error) <span class="cov0" title="0">{
+        conn, err := amqp.Dial(rabbitURL)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Error(err)
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">channel, err := conn.Channel()
+        if err != nil </span><span class="cov0" title="0">{
+                log.Error(err)
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return rabbitChannel{ch: channel}, nil</span>
+}
+
+type rabbitChannel struct {
+        ch *amqp.Channel
+}
+
+func (c rabbitChannel) ExchangeDeclare(
+        name string,
+        chType string,
+) error <span class="cov0" title="0">{
+        return c.ch.ExchangeDeclare(
+                name,   // name
+                chType, // type
+                false,  // durable
+                false,  // auto-deleted
+                false,  // internal
+                false,  // no-wait
+                nil,    // arguments
+        )
+}</span>
+func (c rabbitChannel) Publish(
+        exchange string,
+        routingKey string,
+        body []byte,
+) error <span class="cov0" title="0">{
+        return c.ch.Publish(
+                exchange,   // exchange
+                routingKey, // routing key
+                false,      // mandatory
+                false,      // immediate
+                amqp.Publishing{
+                        Body: body,
+                })
+}</span>
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">// FILE AUTOMATICALLY GENERATED. ADAPTER TO USE GENERICS
+package mktools
+
+import (
+        reflect "reflect"
+
+        gomock "github.com/golang/mock/gomock"
+)
+
+// MockCache is a mock of Cache interface.
+type MockCache[T any] struct {
+        ctrl     *gomock.Controller
+        recorder *MockCacheMockRecorder[T]
+}
+
+// MockCacheMockRecorder is the mock recorder for MockCache.
+type MockCacheMockRecorder[T any] struct {
+        mock *MockCache[T]
+}
+
+// NewMockCache creates a new mock instance.
+func NewMockCache[T any](ctrl *gomock.Controller) *MockCache[T] <span class="cov0" title="0">{
+        mock := &amp;MockCache[T]{ctrl: ctrl}
+        mock.recorder = &amp;MockCacheMockRecorder[T]{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockCache[T]) EXPECT() *MockCacheMockRecorder[T] <span class="cov0" title="0">{
+        return m.recorder
+}</span>
+
+// Add mocks base method.
+func (m *MockCache[T]) Add(key string, value *T) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Add", key, value)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// Add indicates an expected call of Add.
+func (mr *MockCacheMockRecorder[T]) Add(key, value interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockCache[T])(nil).Add), key, value)
+}</span>
+
+// Get mocks base method.
+func (m *MockCache[T]) Get(key string) (*T, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Get", key)
+        ret0, _ := ret[0].(*T)
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// Get indicates an expected call of Get.
+func (mr *MockCacheMockRecorder[T]) Get(key interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockCache[T])(nil).Get), key)
+}</span>
+
+// Remove mocks base method.
+func (m *MockCache[T]) Remove(key string) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        m.ctrl.Call(m, "Remove", key)
+}</span>
+
+// Remove indicates an expected call of Remove.
+func (mr *MockCacheMockRecorder[T]) Remove(key interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockCache[T])(nil).Remove), key)
+}</span>
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package mktools
+
+import (
+        "github.com/golang/mock/gomock"
+        "github.com/nmarsollier/commongo/test/mockgen"
+)
+
+func ExpectFindOneError(coll *mockgen.MockCollection, err error, times int) <span class="cov0" title="0">{
+        coll.EXPECT().FindOne(gomock.Any(), gomock.Any(), gomock.Any()).DoAndReturn(
+                func(arg1 interface{}, params interface{}, update interface{}) error </span><span class="cov0" title="0">{
+                        return err
+                }</span>,
+        ).Times(times)
+}
+
+func ExpectUpdateOneError(coll *mockgen.MockCollection, err error, times int) <span class="cov0" title="0">{
+        coll.EXPECT().UpdateOne(gomock.Any(), gomock.Any(), gomock.Any()).Return(int64(0), err).Times(times)
+}</span>
+
+func ExpectInsertOneError(coll *mockgen.MockCollection, err error, times int) <span class="cov0" title="0">{
+        coll.EXPECT().InsertOne(gomock.Any(), gomock.Any()).Return("", err).Times(times)
+}</span>
+
+func ExpectInsertOne(coll *mockgen.MockCollection, times int) <span class="cov0" title="0">{
+        coll.EXPECT().InsertOne(gomock.Any(), gomock.Any()).Return("", nil).Times(times)
+}</span>
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package mktools
+
+import (
+        "github.com/golang/mock/gomock"
+        "github.com/nmarsollier/commongo/pkg/log"
+        "github.com/nmarsollier/commongo/test/mockgen"
+        "github.com/sirupsen/logrus"
+)
+
+func NewTestLogger(ctrl *gomock.Controller, withFieldCount int, errorCount int, infoCount int, dataCount int, warnCount int, fatalCount int) log.LogRusEntry <span class="cov0" title="0">{
+        logger := mockgen.NewMockLogRusEntry(ctrl)
+        logger.EXPECT().WithField(gomock.Any(), gomock.Any()).Return(logger).Times(withFieldCount)
+        logger.EXPECT().Error(gomock.Any()).Return().Times(errorCount)
+        logger.EXPECT().Info(gomock.Any()).Return().Times(infoCount)
+        logger.EXPECT().Warn(gomock.Any()).Return().Times(warnCount)
+        logger.EXPECT().Fatal(gomock.Any()).Return().Times(fatalCount)
+
+        logger.EXPECT().Data().Return(logrus.Fields{
+                log.LOG_FIELD_CORRELATION_ID: "correlationId",
+        }).Times(dataCount)
+
+        return logger
+}</span>
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package mktools
+
+import (
+        "github.com/golang/mock/gomock"
+        "github.com/nmarsollier/commongo/test/mockgen"
+)
+
+func DefaultMockRabbitChannel(ctrl *gomock.Controller, times int) *mockgen.MockRabbitChannel <span class="cov0" title="0">{
+        channel := mockgen.NewMockRabbitChannel(ctrl)
+        channel.EXPECT().ExchangeDeclare(gomock.Any(), gomock.Any()).Return(nil).Times(times)
+        return channel
+}</span>
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+// Source: ./pkg/errs/rest.go
+
+// Package mockgen is a generated GoMock package.
+package mockgen
+
+import (
+        reflect "reflect"
+
+        gomock "github.com/golang/mock/gomock"
+)
+
+// MockRestError is a mock of RestError interface.
+type MockRestError struct {
+        ctrl     *gomock.Controller
+        recorder *MockRestErrorMockRecorder
+}
+
+// MockRestErrorMockRecorder is the mock recorder for MockRestError.
+type MockRestErrorMockRecorder struct {
+        mock *MockRestError
+}
+
+// NewMockRestError creates a new mock instance.
+func NewMockRestError(ctrl *gomock.Controller) *MockRestError <span class="cov0" title="0">{
+        mock := &amp;MockRestError{ctrl: ctrl}
+        mock.recorder = &amp;MockRestErrorMockRecorder{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRestError) EXPECT() *MockRestErrorMockRecorder <span class="cov0" title="0">{
+        return m.recorder
+}</span>
+
+// Error mocks base method.
+func (m *MockRestError) Error() string <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Error")
+        ret0, _ := ret[0].(string)
+        return ret0
+}</span>
+
+// Error indicates an expected call of Error.
+func (mr *MockRestErrorMockRecorder) Error() *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Error", reflect.TypeOf((*MockRestError)(nil).Error))
+}</span>
+
+// Status mocks base method.
+func (m *MockRestError) Status() int <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Status")
+        ret0, _ := ret[0].(int)
+        return ret0
+}</span>
+
+// Status indicates an expected call of Status.
+func (mr *MockRestErrorMockRecorder) Status() *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Status", reflect.TypeOf((*MockRestError)(nil).Status))
+}</span>
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+// Source: ./pkg/errs/validation.go
+
+// Package mockgen is a generated GoMock package.
+package mockgen
+
+import (
+        reflect "reflect"
+
+        gomock "github.com/golang/mock/gomock"
+        errs "github.com/nmarsollier/commongo/pkg/errs"
+)
+
+// MockValidation is a mock of Validation interface.
+type MockValidation struct {
+        ctrl     *gomock.Controller
+        recorder *MockValidationMockRecorder
+}
+
+// MockValidationMockRecorder is the mock recorder for MockValidation.
+type MockValidationMockRecorder struct {
+        mock *MockValidation
+}
+
+// NewMockValidation creates a new mock instance.
+func NewMockValidation(ctrl *gomock.Controller) *MockValidation <span class="cov0" title="0">{
+        mock := &amp;MockValidation{ctrl: ctrl}
+        mock.recorder = &amp;MockValidationMockRecorder{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockValidation) EXPECT() *MockValidationMockRecorder <span class="cov0" title="0">{
+        return m.recorder
+}</span>
+
+// Add mocks base method.
+func (m *MockValidation) Add(path, message string) errs.Validation <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Add", path, message)
+        ret0, _ := ret[0].(errs.Validation)
+        return ret0
+}</span>
+
+// Add indicates an expected call of Add.
+func (mr *MockValidationMockRecorder) Add(path, message interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockValidation)(nil).Add), path, message)
+}</span>
+
+// Error mocks base method.
+func (m *MockValidation) Error() string <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Error")
+        ret0, _ := ret[0].(string)
+        return ret0
+}</span>
+
+// Error indicates an expected call of Error.
+func (mr *MockValidationMockRecorder) Error() *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Error", reflect.TypeOf((*MockValidation)(nil).Error))
+}</span>
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+// Source: ./pkg/log/logger.go
+
+// Package mockgen is a generated GoMock package.
+package mockgen
+
+import (
+        reflect "reflect"
+
+        gomock "github.com/golang/mock/gomock"
+        log "github.com/nmarsollier/commongo/pkg/log"
+        logrus "github.com/sirupsen/logrus"
+)
+
+// MockLogRusEntry is a mock of LogRusEntry interface.
+type MockLogRusEntry struct {
+        ctrl     *gomock.Controller
+        recorder *MockLogRusEntryMockRecorder
+}
+
+// MockLogRusEntryMockRecorder is the mock recorder for MockLogRusEntry.
+type MockLogRusEntryMockRecorder struct {
+        mock *MockLogRusEntry
+}
+
+// NewMockLogRusEntry creates a new mock instance.
+func NewMockLogRusEntry(ctrl *gomock.Controller) *MockLogRusEntry <span class="cov0" title="0">{
+        mock := &amp;MockLogRusEntry{ctrl: ctrl}
+        mock.recorder = &amp;MockLogRusEntryMockRecorder{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockLogRusEntry) EXPECT() *MockLogRusEntryMockRecorder <span class="cov0" title="0">{
+        return m.recorder
+}</span>
+
+// Data mocks base method.
+func (m *MockLogRusEntry) Data() logrus.Fields <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Data")
+        ret0, _ := ret[0].(logrus.Fields)
+        return ret0
+}</span>
+
+// Data indicates an expected call of Data.
+func (mr *MockLogRusEntryMockRecorder) Data() *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Data", reflect.TypeOf((*MockLogRusEntry)(nil).Data))
+}</span>
+
+// Error mocks base method.
+func (m *MockLogRusEntry) Error(args ...interface{}) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        varargs := []interface{}{}
+        for _, a := range args </span><span class="cov0" title="0">{
+                varargs = append(varargs, a)
+        }</span>
+        <span class="cov0" title="0">m.ctrl.Call(m, "Error", varargs...)</span>
+}
+
+// Error indicates an expected call of Error.
+func (mr *MockLogRusEntryMockRecorder) Error(args ...interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Error", reflect.TypeOf((*MockLogRusEntry)(nil).Error), args...)
+}</span>
+
+// Fatal mocks base method.
+func (m *MockLogRusEntry) Fatal(args ...interface{}) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        varargs := []interface{}{}
+        for _, a := range args </span><span class="cov0" title="0">{
+                varargs = append(varargs, a)
+        }</span>
+        <span class="cov0" title="0">m.ctrl.Call(m, "Fatal", varargs...)</span>
+}
+
+// Fatal indicates an expected call of Fatal.
+func (mr *MockLogRusEntryMockRecorder) Fatal(args ...interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fatal", reflect.TypeOf((*MockLogRusEntry)(nil).Fatal), args...)
+}</span>
+
+// Info mocks base method.
+func (m *MockLogRusEntry) Info(args ...interface{}) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        varargs := []interface{}{}
+        for _, a := range args </span><span class="cov0" title="0">{
+                varargs = append(varargs, a)
+        }</span>
+        <span class="cov0" title="0">m.ctrl.Call(m, "Info", varargs...)</span>
+}
+
+// Info indicates an expected call of Info.
+func (mr *MockLogRusEntryMockRecorder) Info(args ...interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Info", reflect.TypeOf((*MockLogRusEntry)(nil).Info), args...)
+}</span>
+
+// Warn mocks base method.
+func (m *MockLogRusEntry) Warn(args ...interface{}) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        varargs := []interface{}{}
+        for _, a := range args </span><span class="cov0" title="0">{
+                varargs = append(varargs, a)
+        }</span>
+        <span class="cov0" title="0">m.ctrl.Call(m, "Warn", varargs...)</span>
+}
+
+// Warn indicates an expected call of Warn.
+func (mr *MockLogRusEntryMockRecorder) Warn(args ...interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Warn", reflect.TypeOf((*MockLogRusEntry)(nil).Warn), args...)
+}</span>
+
+// WithField mocks base method.
+func (m *MockLogRusEntry) WithField(key string, value interface{}) log.LogRusEntry <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "WithField", key, value)
+        ret0, _ := ret[0].(log.LogRusEntry)
+        return ret0
+}</span>
+
+// WithField indicates an expected call of WithField.
+func (mr *MockLogRusEntryMockRecorder) WithField(key, value interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithField", reflect.TypeOf((*MockLogRusEntry)(nil).WithField), key, value)
+}</span>
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+// Source: ./pkg/db/collection.go
+
+// Package mockgen is a generated GoMock package.
+package mockgen
+
+import (
+        context "context"
+        reflect "reflect"
+
+        gomock "github.com/golang/mock/gomock"
+        db "github.com/nmarsollier/commongo/pkg/db"
+)
+
+// MockCollection is a mock of Collection interface.
+type MockCollection struct {
+        ctrl     *gomock.Controller
+        recorder *MockCollectionMockRecorder
+}
+
+// MockCollectionMockRecorder is the mock recorder for MockCollection.
+type MockCollectionMockRecorder struct {
+        mock *MockCollection
+}
+
+// NewMockCollection creates a new mock instance.
+func NewMockCollection(ctrl *gomock.Controller) *MockCollection <span class="cov0" title="0">{
+        mock := &amp;MockCollection{ctrl: ctrl}
+        mock.recorder = &amp;MockCollectionMockRecorder{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockCollection) EXPECT() *MockCollectionMockRecorder <span class="cov0" title="0">{
+        return m.recorder
+}</span>
+
+// Find mocks base method.
+func (m *MockCollection) Find(ctx context.Context, filter interface{}) (db.Cursor, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Find", ctx, filter)
+        ret0, _ := ret[0].(db.Cursor)
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// Find indicates an expected call of Find.
+func (mr *MockCollectionMockRecorder) Find(ctx, filter interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCollection)(nil).Find), ctx, filter)
+}</span>
+
+// FindOne mocks base method.
+func (m *MockCollection) FindOne(ctx context.Context, filter, v interface{}) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "FindOne", ctx, filter, v)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// FindOne indicates an expected call of FindOne.
+func (mr *MockCollectionMockRecorder) FindOne(ctx, filter, v interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOne", reflect.TypeOf((*MockCollection)(nil).FindOne), ctx, filter, v)
+}</span>
+
+// InsertOne mocks base method.
+func (m *MockCollection) InsertOne(ctx context.Context, document interface{}) (interface{}, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "InsertOne", ctx, document)
+        ret0, _ := ret[0].(interface{})
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// InsertOne indicates an expected call of InsertOne.
+func (mr *MockCollectionMockRecorder) InsertOne(ctx, document interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertOne", reflect.TypeOf((*MockCollection)(nil).InsertOne), ctx, document)
+}</span>
+
+// UpdateOne mocks base method.
+func (m *MockCollection) UpdateOne(ctx context.Context, filter, update interface{}) (int64, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "UpdateOne", ctx, filter, update)
+        ret0, _ := ret[0].(int64)
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// UpdateOne indicates an expected call of UpdateOne.
+func (mr *MockCollectionMockRecorder) UpdateOne(ctx, filter, update interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOne", reflect.TypeOf((*MockCollection)(nil).UpdateOne), ctx, filter, update)
+}</span>
+
+// MockCursor is a mock of Cursor interface.
+type MockCursor struct {
+        ctrl     *gomock.Controller
+        recorder *MockCursorMockRecorder
+}
+
+// MockCursorMockRecorder is the mock recorder for MockCursor.
+type MockCursorMockRecorder struct {
+        mock *MockCursor
+}
+
+// NewMockCursor creates a new mock instance.
+func NewMockCursor(ctrl *gomock.Controller) *MockCursor <span class="cov0" title="0">{
+        mock := &amp;MockCursor{ctrl: ctrl}
+        mock.recorder = &amp;MockCursorMockRecorder{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockCursor) EXPECT() *MockCursorMockRecorder <span class="cov0" title="0">{
+        return m.recorder
+}</span>
+
+// Close mocks base method.
+func (m *MockCursor) Close(ctx context.Context) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Close", ctx)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// Close indicates an expected call of Close.
+func (mr *MockCursorMockRecorder) Close(ctx interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockCursor)(nil).Close), ctx)
+}</span>
+
+// Decode mocks base method.
+func (m *MockCursor) Decode(val interface{}) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Decode", val)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// Decode indicates an expected call of Decode.
+func (mr *MockCursorMockRecorder) Decode(val interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Decode", reflect.TypeOf((*MockCursor)(nil).Decode), val)
+}</span>
+
+// Next mocks base method.
+func (m *MockCursor) Next(ctx context.Context) bool <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Next", ctx)
+        ret0, _ := ret[0].(bool)
+        return ret0
+}</span>
+
+// Next indicates an expected call of Next.
+func (mr *MockCursorMockRecorder) Next(ctx interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Next", reflect.TypeOf((*MockCursor)(nil).Next), ctx)
+}</span>
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+// Source: ./pkg/rbt/rabbit_channel.go
+
+// Package mockgen is a generated GoMock package.
+package mockgen
+
+import (
+        reflect "reflect"
+
+        gomock "github.com/golang/mock/gomock"
+)
+
+// MockRabbitChannel is a mock of RabbitChannel interface.
+type MockRabbitChannel struct {
+        ctrl     *gomock.Controller
+        recorder *MockRabbitChannelMockRecorder
+}
+
+// MockRabbitChannelMockRecorder is the mock recorder for MockRabbitChannel.
+type MockRabbitChannelMockRecorder struct {
+        mock *MockRabbitChannel
+}
+
+// NewMockRabbitChannel creates a new mock instance.
+func NewMockRabbitChannel(ctrl *gomock.Controller) *MockRabbitChannel <span class="cov0" title="0">{
+        mock := &amp;MockRabbitChannel{ctrl: ctrl}
+        mock.recorder = &amp;MockRabbitChannelMockRecorder{mock}
+        return mock
+}</span>
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRabbitChannel) EXPECT() *MockRabbitChannelMockRecorder <span class="cov0" title="0">{
+        return m.recorder
+}</span>
+
+// ExchangeDeclare mocks base method.
+func (m *MockRabbitChannel) ExchangeDeclare(name, chType string) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "ExchangeDeclare", name, chType)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// ExchangeDeclare indicates an expected call of ExchangeDeclare.
+func (mr *MockRabbitChannelMockRecorder) ExchangeDeclare(name, chType interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExchangeDeclare", reflect.TypeOf((*MockRabbitChannel)(nil).ExchangeDeclare), name, chType)
+}</span>
+
+// Publish mocks base method.
+func (m *MockRabbitChannel) Publish(exchange, routingKey string, body []byte) error <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "Publish", exchange, routingKey, body)
+        ret0, _ := ret[0].(error)
+        return ret0
+}</span>
+
+// Publish indicates an expected call of Publish.
+func (mr *MockRabbitChannelMockRecorder) Publish(exchange, routingKey, body interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Publish", reflect.TypeOf((*MockRabbitChannel)(nil).Publish), exchange, routingKey, body)
+}</span>
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

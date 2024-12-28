@@ -1,0 +1,16 @@
+mode: set
+github.com/nmarsollier/commongo/test/mktools/cache.go:22.65,26.2 3 0
+github.com/nmarsollier/commongo/test/mktools/cache.go:29.59,31.2 1 0
+github.com/nmarsollier/commongo/test/mktools/cache.go:34.56,39.2 4 0
+github.com/nmarsollier/commongo/test/mktools/cache.go:42.78,45.2 2 0
+github.com/nmarsollier/commongo/test/mktools/cache.go:48.52,54.2 5 0
+github.com/nmarsollier/commongo/test/mktools/cache.go:57.71,60.2 2 0
+github.com/nmarsollier/commongo/test/mktools/cache.go:63.43,66.2 2 0
+github.com/nmarsollier/commongo/test/mktools/cache.go:69.74,72.2 2 0
+github.com/nmarsollier/commongo/test/mktools/generic.go:8.77,10.72 1 0
+github.com/nmarsollier/commongo/test/mktools/generic.go:10.72,12.4 1 0
+github.com/nmarsollier/commongo/test/mktools/generic.go:16.79,18.2 1 0
+github.com/nmarsollier/commongo/test/mktools/generic.go:20.79,22.2 1 0
+github.com/nmarsollier/commongo/test/mktools/generic.go:24.63,26.2 1 0
+github.com/nmarsollier/commongo/test/mktools/logger.go:10.158,23.2 8 0
+github.com/nmarsollier/commongo/test/mktools/rabbit.go:8.94,12.2 3 0
