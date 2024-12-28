@@ -35,6 +35,20 @@ func (m *MockLogRusEntry) EXPECT() *MockLogRusEntryMockRecorder {
 	return m.recorder
 }
 
+// CorrelationId mocks base method.
+func (m *MockLogRusEntry) CorrelationId() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CorrelationId")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// CorrelationId indicates an expected call of CorrelationId.
+func (mr *MockLogRusEntryMockRecorder) CorrelationId() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CorrelationId", reflect.TypeOf((*MockLogRusEntry)(nil).CorrelationId))
+}
+
 // Data mocks base method.
 func (m *MockLogRusEntry) Data() logrus.Fields {
 	m.ctrl.T.Helper()

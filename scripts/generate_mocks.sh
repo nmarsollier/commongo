@@ -4,4 +4,3 @@ mockgen -source=./db/collection.go -destination=./test/mockgen/mongo_collection.
 mockgen -source=./errs/rest.go -destination=./test/mockgen/errs_rest.go -package=mockgen
 mockgen -source=./errs/validation.go -destination=./test/mockgen/errs_validation.go -package=mockgen
 mockgen -source=./log/logger.go -destination=./test/mockgen/log_logger.go -package=mockgen
-mockgen -source=./rbt/rabbit_channel.go -destination=./test/mockgen/rbt_rabbit.go -package=mockgen

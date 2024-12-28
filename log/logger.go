@@ -4,6 +4,7 @@ import "github.com/sirupsen/logrus"
 
 type LogRusEntry interface {
 	Data() logrus.Fields
+	CorrelationId() string
 	Info(args ...interface{})
 	Error(args ...interface{})
 	Warn(args ...interface{})
@@ -38,4 +39,8 @@ func (l *logRusEntry) Fatal(args ...interface{}) {
 
 func (l *logRusEntry) Data() logrus.Fields {
 	return l.entry.Data
+}
+
+func (l *logRusEntry) CorrelationId() string {
+	return l.entry.Data[LOG_FIELD_CORRELATION_ID].(string)
 }
