@@ -44,6 +44,7 @@ github.com/nmarsollier/commongo/errs/validation.go:33.40,35.16 2 0
 github.com/nmarsollier/commongo/errs/validation.go:35.16,37.3 1 0
 github.com/nmarsollier/commongo/errs/validation.go:38.2,38.21 1 0
 github.com/nmarsollier/commongo/errs/validation.go:52.69,59.2 3 0
+github.com/nmarsollier/commongo/httpx/client.go:9.23,11.2 1 0
 github.com/nmarsollier/commongo/log/factory.go:26.15,36.2 5 0
 github.com/nmarsollier/commongo/log/factory.go:38.63,40.16 2 0
 github.com/nmarsollier/commongo/log/factory.go:40.16,51.3 3 0
@@ -72,6 +73,7 @@ github.com/nmarsollier/commongo/rbt/publisher.go:75.16,78.3 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:80.2,89.16 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:89.16,92.3 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:94.2,96.12 2 0
+github.com/nmarsollier/commongo/strs/json.go:5.37,8.2 2 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:22.65,26.2 3 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:29.59,31.2 1 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:34.56,39.2 4 0
