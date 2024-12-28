@@ -51,7 +51,7 @@ cd $GOPATH/src/github.com/nmarsollier/commongo
 ```bash
 go install github.com/swaggo/gin-swagger/swaggerFiles
 go install github.com/swaggo/gin-swagger
-go install github.com/swaggo/swag/pkg/swag
+go install github.com/swaggo/swag/swag
 go install github.com/golang/mock/mockgen@v1.6.0
 go install github.com/99designs/gqlgen@v0.17.56
 ```
@@ -84,7 +84,7 @@ Usamos [swaggo](https://github.com/swaggo/swag)
 Requisitos
 
 ```bash
-go install github.com/swaggo/swag/pkg/swag@latest
+go install github.com/swaggo/swag/swag@latest
 ```
 
 La documentacion la generamos con el comando

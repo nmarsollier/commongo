@@ -1,0 +1,9 @@
+mode: set
+github.com/nmarsollier/commongo/errs/rest.go:16.57,21.2 1 0
+github.com/nmarsollier/commongo/errs/rest.go:36.36,38.2 1 0
+github.com/nmarsollier/commongo/errs/rest.go:41.34,43.2 1 0
+github.com/nmarsollier/commongo/errs/validation.go:21.33,25.2 1 0
+github.com/nmarsollier/commongo/errs/validation.go:33.40,35.16 2 0
+github.com/nmarsollier/commongo/errs/validation.go:35.16,37.3 1 0
+github.com/nmarsollier/commongo/errs/validation.go:38.2,38.21 1 0
+github.com/nmarsollier/commongo/errs/validation.go:52.69,59.2 3 0

@@ -2,7 +2,7 @@ package mktools
 
 import (
 	"github.com/golang/mock/gomock"
-	"github.com/nmarsollier/commongo/pkg/log"
+	"github.com/nmarsollier/commongo/log"
 	"github.com/nmarsollier/commongo/test/mockgen"
 	"github.com/sirupsen/logrus"
 )
