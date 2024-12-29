@@ -49,15 +49,15 @@ func NewRabbitPublisher[T any](
 	}, nil
 }
 
-func (c *rabbitPublisher[T]) exchangeDeclare() error {
+func (c *rabbitPublisher[T]) exchangeDeclare(exchangeName string, channelType string) error {
 	return c.ch.ExchangeDeclare(
-		c.exchangeName, // name
-		c.channelType,  // type
-		false,          // durable
-		false,          // auto-deleted
-		false,          // internal
-		false,          // no-wait
-		nil,            // arguments
+		exchangeName, // name
+		channelType,  // type
+		false,        // durable
+		false,        // auto-deleted
+		false,        // internal
+		false,        // no-wait
+		nil,          // arguments
 	)
 }
 
@@ -74,7 +74,7 @@ func (c *rabbitPublisher[T]) PublishTo(exchange string, routingKey string, data 
 }
 
 func (c *rabbitPublisher[T]) publish(exchange string, routingKey string, data T, fbExchange string, fbRoutingKey string) error {
-	err := c.exchangeDeclare()
+	err := c.exchangeDeclare(exchange, c.channelType)
 	if err != nil {
 		c.log.Error(err)
 		return err
@@ -107,7 +107,7 @@ func (c *rabbitPublisher[T]) publish(exchange string, routingKey string, data T,
 		return err
 	}
 
-	c.log.Info("Rabbit publish ", exchange, routingKey, string(body))
+	c.log.Info("Rabbit publish ", exchange+" ", routingKey+" ", string(body))
 
 	return nil
 }
