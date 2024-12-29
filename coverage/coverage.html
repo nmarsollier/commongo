@@ -856,6 +856,11 @@ func getCorrelationId(c *gin.Context) string <span class="cov0" title="0">{
 
         <span class="cov0" title="0">return value</span>
 }
+
+func AbortWithError(c *gin.Context, err error) <span class="cov0" title="0">{
+        c.Error(err)
+        c.Abort()
+}</span>
 </pre>
 		
 		<pre class="file" id="file13" style="display: none">package security

@@ -99,6 +99,7 @@ github.com/nmarsollier/commongo/rst/tools.go:21.85,27.2 1 0
 github.com/nmarsollier/commongo/rst/tools.go:29.46,32.21 2 0
 github.com/nmarsollier/commongo/rst/tools.go:32.21,34.3 1 0
 github.com/nmarsollier/commongo/rst/tools.go:36.2,36.14 1 0
+github.com/nmarsollier/commongo/rst/tools.go:39.48,42.2 2 0
 github.com/nmarsollier/commongo/security/repository.go:24.22,31.2 1 0
 github.com/nmarsollier/commongo/security/repository.go:40.74,43.16 2 0
 github.com/nmarsollier/commongo/security/repository.go:43.16,46.3 2 0
