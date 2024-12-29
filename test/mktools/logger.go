@@ -19,5 +19,7 @@ func NewTestLogger(ctrl *gomock.Controller, withFieldCount int, errorCount int, 
 		log.LOG_FIELD_CORRELATION_ID: "correlationId",
 	}).Times(dataCount)
 
+	logger.EXPECT().CorrelationId().Return("correlationId").AnyTimes()
+
 	return logger
 }
