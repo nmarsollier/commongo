@@ -22,6 +22,7 @@ func NewCollection(
 	log log.LogRusEntry,
 	database *mongo.Database,
 	collectionName string,
+	onError func(error),
 	indexes ...string,
 ) (col Collection, err error) {
 	collection := database.Collection(collectionName)
@@ -35,26 +36,31 @@ func NewCollection(
 			},
 		)
 		if err != nil {
+			onError(err)
 			log.Info(err)
 			return nil, err
 		}
 	}
 	if err != nil {
+		onError(err)
 		log.Error(err)
 		return nil, err
 	}
 
 	return &mongoCollection{
 		collection: collection,
+		onError:    onError,
 	}, nil
 }
 
 type mongoCollection struct {
 	collection *mongo.Collection
+	onError    func(error)
 }
 
 func (m *mongoCollection) FindOne(ctx context.Context, filter interface{}, v interface{}) error {
 	if err := m.collection.FindOne(context.Background(), filter).Decode(v); err != nil {
+		m.onError(err)
 		return err
 	}
 	return nil
@@ -63,6 +69,7 @@ func (m *mongoCollection) FindOne(ctx context.Context, filter interface{}, v int
 func (m *mongoCollection) InsertOne(ctx context.Context, document interface{}) (id interface{}, error error) {
 	insertedId, err := m.collection.InsertOne(context.Background(), document)
 	if err != nil {
+		m.onError(err)
 		return nil, err
 	}
 	return insertedId.InsertedID, nil
@@ -71,6 +78,7 @@ func (m *mongoCollection) InsertOne(ctx context.Context, document interface{}) (
 func (m *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error) {
 	insertedId, err := m.collection.UpdateOne(context.Background(), filter, update)
 	if err != nil {
+		m.onError(err)
 		return 0, err
 	}
 	return insertedId.ModifiedCount, nil
@@ -79,6 +87,7 @@ func (m *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, upd
 func (m *mongoCollection) Find(ctx context.Context, filter interface{}) (cur Cursor, err error) {
 	cursor, err := m.collection.Find(context.Background(), filter)
 	if err != nil {
+		m.onError(err)
 		return nil, err
 	}
 	return NewCursor(cursor), nil
