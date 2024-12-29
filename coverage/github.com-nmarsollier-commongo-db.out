@@ -24,8 +24,3 @@ github.com/nmarsollier/commongo/db/collection.go:119.53,121.2 1 0
 github.com/nmarsollier/commongo/db/database.go:14.28,18.16 3 0
 github.com/nmarsollier/commongo/db/database.go:18.16,20.3 1 0
 github.com/nmarsollier/commongo/db/database.go:22.2,24.22 2 0
-github.com/nmarsollier/commongo/db/tools.go:8.41,9.48 1 0
-github.com/nmarsollier/commongo/db/tools.go:9.48,10.46 1 0
-github.com/nmarsollier/commongo/db/tools.go:10.46,11.41 1 0
-github.com/nmarsollier/commongo/db/tools.go:11.41,13.5 1 0
-github.com/nmarsollier/commongo/db/tools.go:16.2,16.14 1 0
