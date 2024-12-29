@@ -12,6 +12,8 @@ var AlreadyExist = NewRestError(400, "Already exist")
 // Internal is a predefined error for internal server errors (HTTP 500).
 var Internal = NewRestError(500, "Internal server error")
 
+var Invalid = NewRestError(400, "Invalid Document")
+
 // NewRestError creates a new RestError with the given status code and message.
 func NewRestError(status int, message string) RestError {
 	return &restError{
