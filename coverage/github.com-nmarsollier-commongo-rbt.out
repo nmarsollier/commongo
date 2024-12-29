@@ -5,10 +5,10 @@ github.com/nmarsollier/commongo/rbt/publisher.go:37.2,38.16 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:38.16,41.3 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:43.2,49.8 1 0
 github.com/nmarsollier/commongo/rbt/publisher.go:52.93,62.2 1 0
-github.com/nmarsollier/commongo/rbt/publisher.go:64.52,66.2 1 0
-github.com/nmarsollier/commongo/rbt/publisher.go:68.97,70.2 1 0
-github.com/nmarsollier/commongo/rbt/publisher.go:72.90,74.2 1 0
-github.com/nmarsollier/commongo/rbt/publisher.go:76.128,78.16 2 0
+github.com/nmarsollier/commongo/rbt/publisher.go:64.74,66.2 1 0
+github.com/nmarsollier/commongo/rbt/publisher.go:68.119,70.2 1 0
+github.com/nmarsollier/commongo/rbt/publisher.go:72.112,74.2 1 0
+github.com/nmarsollier/commongo/rbt/publisher.go:76.150,78.16 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:78.16,81.3 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:83.2,91.16 3 0
 github.com/nmarsollier/commongo/rbt/publisher.go:91.16,94.3 2 0
