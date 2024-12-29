@@ -35,3 +35,8 @@ func getCorrelationId(c *gin.Context) string {
 
 	return value
 }
+
+func AbortWithError(c *gin.Context, err error) {
+	c.Error(err)
+	c.Abort()
+}
