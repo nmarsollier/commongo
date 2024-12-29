@@ -647,15 +647,15 @@ func NewRabbitPublisher[T any](
         }, nil</span>
 }
 
-func (c *rabbitPublisher[T]) exchangeDeclare() error <span class="cov0" title="0">{
+func (c *rabbitPublisher[T]) exchangeDeclare(exchangeName string, channelType string) error <span class="cov0" title="0">{
         return c.ch.ExchangeDeclare(
-                c.exchangeName, // name
-                c.channelType,  // type
-                false,          // durable
-                false,          // auto-deleted
-                false,          // internal
-                false,          // no-wait
-                nil,            // arguments
+                exchangeName, // name
+                channelType,  // type
+                false,        // durable
+                false,        // auto-deleted
+                false,        // internal
+                false,        // no-wait
+                nil,          // arguments
         )
 }</span>
 
@@ -672,7 +672,7 @@ func (c *rabbitPublisher[T]) PublishTo(exchange string, routingKey string, data 
 }</span>
 
 func (c *rabbitPublisher[T]) publish(exchange string, routingKey string, data T, fbExchange string, fbRoutingKey string) error <span class="cov0" title="0">{
-        err := c.exchangeDeclare()
+        err := c.exchangeDeclare(exchange, c.channelType)
         if err != nil </span><span class="cov0" title="0">{
                 c.log.Error(err)
                 return err
@@ -705,7 +705,7 @@ func (c *rabbitPublisher[T]) publish(exchange string, routingKey string, data T,
                 return err
         }</span>
 
-        <span class="cov0" title="0">c.log.Info("Rabbit publish ", exchange, routingKey, string(body))
+        <span class="cov0" title="0">c.log.Info("Rabbit publish ", exchange+" ", routingKey+" ", string(body))
 
         return nil</span>
 }
