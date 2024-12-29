@@ -7,6 +7,8 @@ github.com/nmarsollier/commongo/test/mktools/cache.go:48.52,54.2 5 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:57.71,60.2 2 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:63.43,66.2 2 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:69.74,72.2 2 0
+github.com/nmarsollier/commongo/test/mktools/httpx.go:15.73,21.2 2 0
+github.com/nmarsollier/commongo/test/mktools/httpx.go:23.59,29.2 2 0
 github.com/nmarsollier/commongo/test/mktools/logger.go:10.158,23.2 8 0
 github.com/nmarsollier/commongo/test/mktools/mongo.go:8.77,10.72 1 0
 github.com/nmarsollier/commongo/test/mktools/mongo.go:10.72,12.4 1 0
@@ -29,3 +31,5 @@ github.com/nmarsollier/commongo/test/mktools/rest.go:35.69,42.2 4 0
 github.com/nmarsollier/commongo/test/mktools/rest.go:44.73,50.2 4 0
 github.com/nmarsollier/commongo/test/mktools/rest.go:52.76,54.2 1 0
 github.com/nmarsollier/commongo/test/mktools/rest.go:56.72,58.2 1 0
+github.com/nmarsollier/commongo/test/mktools/user.go:8.32,15.2 1 0
+github.com/nmarsollier/commongo/test/mktools/user.go:17.37,24.2 1 0

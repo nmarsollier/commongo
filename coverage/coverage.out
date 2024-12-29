@@ -137,6 +137,8 @@ github.com/nmarsollier/commongo/test/mktools/cache.go:48.52,54.2 5 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:57.71,60.2 2 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:63.43,66.2 2 0
 github.com/nmarsollier/commongo/test/mktools/cache.go:69.74,72.2 2 0
+github.com/nmarsollier/commongo/test/mktools/httpx.go:15.73,21.2 2 0
+github.com/nmarsollier/commongo/test/mktools/httpx.go:23.59,29.2 2 0
 github.com/nmarsollier/commongo/test/mktools/logger.go:10.158,23.2 8 0
 github.com/nmarsollier/commongo/test/mktools/mongo.go:8.77,10.72 1 0
 github.com/nmarsollier/commongo/test/mktools/mongo.go:10.72,12.4 1 0
@@ -159,6 +161,8 @@ github.com/nmarsollier/commongo/test/mktools/rest.go:35.69,42.2 4 0
 github.com/nmarsollier/commongo/test/mktools/rest.go:44.73,50.2 4 0
 github.com/nmarsollier/commongo/test/mktools/rest.go:52.76,54.2 1 0
 github.com/nmarsollier/commongo/test/mktools/rest.go:56.72,58.2 1 0
+github.com/nmarsollier/commongo/test/mktools/user.go:8.32,15.2 1 0
+github.com/nmarsollier/commongo/test/mktools/user.go:17.37,24.2 1 0
 github.com/nmarsollier/commongo/test/mockgen/errs_rest.go:25.63,29.2 3 0
 github.com/nmarsollier/commongo/test/mockgen/errs_rest.go:32.61,34.2 1 0
 github.com/nmarsollier/commongo/test/mockgen/errs_rest.go:37.40,42.2 4 0
@@ -171,6 +175,10 @@ github.com/nmarsollier/commongo/test/mockgen/errs_validation.go:38.68,43.2 4 0
 github.com/nmarsollier/commongo/test/mockgen/errs_validation.go:46.83,49.2 2 0
 github.com/nmarsollier/commongo/test/mockgen/errs_validation.go:52.41,57.2 4 0
 github.com/nmarsollier/commongo/test/mockgen/errs_validation.go:60.60,63.2 2 0
+github.com/nmarsollier/commongo/test/mockgen/httpx_client.go:26.65,30.2 3 0
+github.com/nmarsollier/commongo/test/mockgen/httpx_client.go:33.63,35.2 1 0
+github.com/nmarsollier/commongo/test/mockgen/httpx_client.go:38.72,44.2 5 0
+github.com/nmarsollier/commongo/test/mockgen/httpx_client.go:47.72,50.2 2 0
 github.com/nmarsollier/commongo/test/mockgen/log_logger.go:27.67,31.2 3 0
 github.com/nmarsollier/commongo/test/mockgen/log_logger.go:34.65,36.2 1 0
 github.com/nmarsollier/commongo/test/mockgen/log_logger.go:39.50,44.2 4 0
