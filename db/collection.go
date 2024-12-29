@@ -16,6 +16,8 @@ type Collection interface {
 	UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error)
 
 	Find(ctx context.Context, filter interface{}) (cur Cursor, err error)
+
+	ReplaceOne(ctx context.Context, filter interface{}, replacement interface{}) (modified int64, error error)
 }
 
 func NewCollection(
@@ -118,4 +120,12 @@ func (c *mongoCursor) Next(ctx context.Context) bool {
 }
 func (c *mongoCursor) Decode(val interface{}) error {
 	return c.cursor.Decode(val)
+}
+
+func (m *mongoCollection) ReplaceOne(ctx context.Context, filter interface{}, replacement interface{}) (modified int64, error error) {
+	insertedId, err := m.collection.ReplaceOne(context.Background(), filter, replacement)
+	if err != nil {
+		return 0, err
+	}
+	return insertedId.ModifiedCount, nil
 }
