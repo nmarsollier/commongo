@@ -21,6 +21,10 @@ github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go:25.85,29.2 3 0
 github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go:32.79,34.2 1 0
 github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go:37.56,42.2 4 0
 github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go:45.86,48.2 2 0
+github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go:51.94,56.2 4 0
+github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go:59.117,62.2 2 0
+github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go:65.87,70.2 4 0
+github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go:73.110,76.2 2 0
 github.com/nmarsollier/commongo/test/mktools/rest.go:14.97,16.26 2 0
 github.com/nmarsollier/commongo/test/mktools/rest.go:16.26,18.3 1 0
 github.com/nmarsollier/commongo/test/mktools/rest.go:19.2,20.15 2 0
