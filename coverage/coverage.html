@@ -209,6 +209,7 @@ func NewCollection(
         log log.LogRusEntry,
         database *mongo.Database,
         collectionName string,
+        onError func(error),
         indexes ...string,
 ) (col Collection, err error) <span class="cov0" title="0">{
         collection := database.Collection(collectionName)
@@ -222,26 +223,31 @@ func NewCollection(
                         },
                 )
                 if err != nil </span><span class="cov0" title="0">{
+                        onError(err)
                         log.Info(err)
                         return nil, err
                 }</span>
         }
         <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                onError(err)
                 log.Error(err)
                 return nil, err
         }</span>
 
         <span class="cov0" title="0">return &amp;mongoCollection{
                 collection: collection,
+                onError:    onError,
         }, nil</span>
 }
 
 type mongoCollection struct {
         collection *mongo.Collection
+        onError    func(error)
 }
 
 func (m *mongoCollection) FindOne(ctx context.Context, filter interface{}, v interface{}) error <span class="cov0" title="0">{
         if err := m.collection.FindOne(context.Background(), filter).Decode(v); err != nil </span><span class="cov0" title="0">{
+                m.onError(err)
                 return err
         }</span>
         <span class="cov0" title="0">return nil</span>
@@ -250,6 +256,7 @@ func (m *mongoCollection) FindOne(ctx context.Context, filter interface{}, v int
 func (m *mongoCollection) InsertOne(ctx context.Context, document interface{}) (id interface{}, error error) <span class="cov0" title="0">{
         insertedId, err := m.collection.InsertOne(context.Background(), document)
         if err != nil </span><span class="cov0" title="0">{
+                m.onError(err)
                 return nil, err
         }</span>
         <span class="cov0" title="0">return insertedId.InsertedID, nil</span>
@@ -258,6 +265,7 @@ func (m *mongoCollection) InsertOne(ctx context.Context, document interface{}) (
 func (m *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error) <span class="cov0" title="0">{
         insertedId, err := m.collection.UpdateOne(context.Background(), filter, update)
         if err != nil </span><span class="cov0" title="0">{
+                m.onError(err)
                 return 0, err
         }</span>
         <span class="cov0" title="0">return insertedId.ModifiedCount, nil</span>
@@ -266,6 +274,7 @@ func (m *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, upd
 func (m *mongoCollection) Find(ctx context.Context, filter interface{}) (cur Cursor, err error) <span class="cov0" title="0">{
         cursor, err := m.collection.Find(context.Background(), filter)
         if err != nil </span><span class="cov0" title="0">{
+                m.onError(err)
                 return nil, err
         }</span>
         <span class="cov0" title="0">return NewCursor(cursor), nil</span>
