@@ -107,7 +107,7 @@ func (c *rabbitPublisher[T]) publish(exchange string, routingKey string, data T,
 		return err
 	}
 
-	c.log.Info("Rabbit publish", string(body))
+	c.log.Info("Rabbit publish ", exchange, routingKey, string(body))
 
 	return nil
 }
