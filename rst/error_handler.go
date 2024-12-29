@@ -34,7 +34,7 @@ func handleErrorIfNeeded(c *gin.Context) {
 		return
 	}
 
-	handleErrorByType(c, err)
+	handleErrorByType(c, err.Err)
 }
 
 // handleErrorByType handles any error to serialize it as JSON to the client
