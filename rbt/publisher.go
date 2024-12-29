@@ -8,9 +8,9 @@ import (
 )
 
 type RabbitPublisher[T any] interface {
-	PublishForResult(data T, exchange string, routingKey string) error
-	PublishTo(exchange string, routingKey string, data T) error
-	Publish(data T) error
+	PublishForResult(correlationId string, data T, exchange string, routingKey string) error
+	PublishTo(correlationId string, exchange string, routingKey string, data T) error
+	Publish(correlationId string, data T) error
 }
 
 type rabbitPublisher[T any] struct {
@@ -61,19 +61,19 @@ func (c *rabbitPublisher[T]) exchangeDeclare(exchangeName string, channelType st
 	)
 }
 
-func (c *rabbitPublisher[T]) Publish(data T) error {
-	return c.PublishTo(c.exchangeName, c.routingKey, data)
+func (c *rabbitPublisher[T]) Publish(correlationId string, data T) error {
+	return c.PublishTo(correlationId, c.exchangeName, c.routingKey, data)
 }
 
-func (c *rabbitPublisher[T]) PublishForResult(data T, exchange string, routingKey string) error {
-	return c.publish(c.exchangeName, c.routingKey, data, exchange, routingKey)
+func (c *rabbitPublisher[T]) PublishForResult(correlationId string, data T, exchange string, routingKey string) error {
+	return c.publish(correlationId, c.exchangeName, c.routingKey, data, exchange, routingKey)
 }
 
-func (c *rabbitPublisher[T]) PublishTo(exchange string, routingKey string, data T) error {
-	return c.publish(exchange, routingKey, data, "", "")
+func (c *rabbitPublisher[T]) PublishTo(correlationId string, exchange string, routingKey string, data T) error {
+	return c.publish(correlationId, exchange, routingKey, data, "", "")
 }
 
-func (c *rabbitPublisher[T]) publish(exchange string, routingKey string, data T, fbExchange string, fbRoutingKey string) error {
+func (c *rabbitPublisher[T]) publish(correlationId string, exchange string, routingKey string, data T, fbExchange string, fbRoutingKey string) error {
 	err := c.exchangeDeclare(exchange, c.channelType)
 	if err != nil {
 		c.log.Error(err)
@@ -81,7 +81,7 @@ func (c *rabbitPublisher[T]) publish(exchange string, routingKey string, data T,
 	}
 
 	send := publishMessage[T]{
-		CorrelationId: c.log.CorrelationId(),
+		CorrelationId: correlationId,
 		Exchange:      fbExchange,
 		RoutingKey:    fbRoutingKey,
 		Message:       data,
