@@ -42,5 +42,9 @@ func (l *logRusEntry) Data() logrus.Fields {
 }
 
 func (l *logRusEntry) CorrelationId() string {
-	return l.entry.Data[LOG_FIELD_CORRELATION_ID].(string)
+	result, ok := l.entry.Data[LOG_FIELD_CORRELATION_ID].(string)
+	if !ok {
+		return ""
+	}
+	return result
 }
