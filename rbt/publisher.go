@@ -8,6 +8,7 @@ import (
 )
 
 type RabbitPublisher[T any] interface {
+	PublishTo(exchange string, routingKey string, data T) error
 	Publish(data T) error
 }
 
@@ -60,6 +61,10 @@ func (c *rabbitPublisher[T]) exchangeDeclare() error {
 }
 
 func (c *rabbitPublisher[T]) Publish(data T) error {
+	return c.PublishTo(c.exchangeName, c.routingKey, data)
+}
+
+func (c *rabbitPublisher[T]) PublishTo(exchange string, routingKey string, data T) error {
 	err := c.exchangeDeclare()
 	if err != nil {
 		c.log.Error(err)
@@ -78,10 +83,10 @@ func (c *rabbitPublisher[T]) Publish(data T) error {
 	}
 
 	err = c.ch.Publish(
-		c.exchangeName, // exchange
-		c.routingKey,   // routing key
-		false,          // mandatory
-		false,          // immediate
+		exchange,   // exchange
+		routingKey, // routing key
+		false,      // mandatory
+		false,      // immediate
 		amqp.Publishing{
 			Body: body,
 		})
