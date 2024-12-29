@@ -79,6 +79,21 @@ func (mr *MockCollectionMockRecorder) InsertOne(ctx, document interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertOne", reflect.TypeOf((*MockCollection)(nil).InsertOne), ctx, document)
 }
 
+// ReplaceOne mocks base method.
+func (m *MockCollection) ReplaceOne(ctx context.Context, filter, replacement interface{}) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReplaceOne", ctx, filter, replacement)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReplaceOne indicates an expected call of ReplaceOne.
+func (mr *MockCollectionMockRecorder) ReplaceOne(ctx, filter, replacement interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReplaceOne", reflect.TypeOf((*MockCollection)(nil).ReplaceOne), ctx, filter, replacement)
+}
+
 // UpdateOne mocks base method.
 func (m *MockCollection) UpdateOne(ctx context.Context, filter, update interface{}) (int64, error) {
 	m.ctrl.T.Helper()

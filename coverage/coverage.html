@@ -201,6 +201,8 @@ type Collection interface {
         UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error)
 
         Find(ctx context.Context, filter interface{}) (cur Cursor, err error)
+
+        ReplaceOne(ctx context.Context, filter interface{}, replacement interface{}) (modified int64, error error)
 }
 
 func NewCollection(
@@ -304,6 +306,14 @@ func (c *mongoCursor) Next(ctx context.Context) bool <span class="cov0" title="0
 func (c *mongoCursor) Decode(val interface{}) error <span class="cov0" title="0">{
         return c.cursor.Decode(val)
 }</span>
+
+func (m *mongoCollection) ReplaceOne(ctx context.Context, filter interface{}, replacement interface{}) (modified int64, error error) <span class="cov0" title="0">{
+        insertedId, err := m.collection.ReplaceOne(context.Background(), filter, replacement)
+        if err != nil </span><span class="cov0" title="0">{
+                return 0, err
+        }</span>
+        <span class="cov0" title="0">return insertedId.ModifiedCount, nil</span>
+}
 </pre>
 		
 		<pre class="file" id="file2" style="display: none">package db
@@ -1755,6 +1765,21 @@ func (m *MockCollection) InsertOne(ctx context.Context, document interface{}) (i
 func (mr *MockCollectionMockRecorder) InsertOne(ctx, document interface{}) *gomock.Call <span class="cov0" title="0">{
         mr.mock.ctrl.T.Helper()
         return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertOne", reflect.TypeOf((*MockCollection)(nil).InsertOne), ctx, document)
+}</span>
+
+// ReplaceOne mocks base method.
+func (m *MockCollection) ReplaceOne(ctx context.Context, filter, replacement interface{}) (int64, error) <span class="cov0" title="0">{
+        m.ctrl.T.Helper()
+        ret := m.ctrl.Call(m, "ReplaceOne", ctx, filter, replacement)
+        ret0, _ := ret[0].(int64)
+        ret1, _ := ret[1].(error)
+        return ret0, ret1
+}</span>
+
+// ReplaceOne indicates an expected call of ReplaceOne.
+func (mr *MockCollectionMockRecorder) ReplaceOne(ctx, filter, replacement interface{}) *gomock.Call <span class="cov0" title="0">{
+        mr.mock.ctrl.T.Helper()
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReplaceOne", reflect.TypeOf((*MockCollection)(nil).ReplaceOne), ctx, filter, replacement)
 }</span>
 
 // UpdateOne mocks base method.
