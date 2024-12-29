@@ -760,7 +760,7 @@ func handleErrorIfNeeded(c *gin.Context) <span class="cov0" title="0">{
                 return
         }</span>
 
-        <span class="cov0" title="0">handleErrorByType(c, err)</span>
+        <span class="cov0" title="0">handleErrorByType(c, err.Err)</span>
 }
 
 // handleErrorByType handles any error to serialize it as JSON to the client
