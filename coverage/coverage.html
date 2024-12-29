@@ -69,7 +69,7 @@
 				
 				<option value="file6">github.com/nmarsollier/commongo/log/factory.go (0.0%)</option>
 				
-				<option value="file7">github.com/nmarsollier/commongo/log/logger.go (37.5%)</option>
+				<option value="file7">github.com/nmarsollier/commongo/log/logger.go (27.3%)</option>
 				
 				<option value="file8">github.com/nmarsollier/commongo/rbt/publisher.go (0.0%)</option>
 				
@@ -592,8 +592,12 @@ func (l *logRusEntry) Data() logrus.Fields <span class="cov8" title="1">{
 }</span>
 
 func (l *logRusEntry) CorrelationId() string <span class="cov0" title="0">{
-        return l.entry.Data[LOG_FIELD_CORRELATION_ID].(string)
-}</span>
+        result, ok := l.entry.Data[LOG_FIELD_CORRELATION_ID].(string)
+        if !ok </span><span class="cov0" title="0">{
+                return ""
+        }</span>
+        <span class="cov0" title="0">return result</span>
+}
 </pre>
 		
 		<pre class="file" id="file8" style="display: none">package rbt
