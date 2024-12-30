@@ -80,9 +80,9 @@ github.com/nmarsollier/commongo/rbt/consume_event.go:106.40,108.6 1 0
 github.com/nmarsollier/commongo/rbt/consume_event.go:108.11,110.6 1 0
 github.com/nmarsollier/commongo/rbt/consume_event.go:111.10,113.5 1 0
 github.com/nmarsollier/commongo/rbt/consume_event.go:117.2,119.12 2 0
-github.com/nmarsollier/commongo/rbt/consume_event.go:127.57,130.21 2 0
-github.com/nmarsollier/commongo/rbt/consume_event.go:130.21,132.3 1 0
-github.com/nmarsollier/commongo/rbt/consume_event.go:134.2,134.14 1 0
+github.com/nmarsollier/commongo/rbt/consume_event.go:129.57,132.21 2 0
+github.com/nmarsollier/commongo/rbt/consume_event.go:132.21,134.3 1 0
+github.com/nmarsollier/commongo/rbt/consume_event.go:136.2,136.14 1 0
 github.com/nmarsollier/commongo/rbt/publisher.go:31.31,33.16 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:33.16,36.3 2 0
 github.com/nmarsollier/commongo/rbt/publisher.go:38.2,39.16 2 0
