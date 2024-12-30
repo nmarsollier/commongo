@@ -193,6 +193,7 @@ import (
         "github.com/nmarsollier/commongo/log"
         "go.mongodb.org/mongo-driver/bson"
         "go.mongodb.org/mongo-driver/mongo"
+        "go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Collection interface {
@@ -200,7 +201,7 @@ type Collection interface {
 
         InsertOne(ctx context.Context, document interface{}) (id interface{}, error error)
 
-        UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error)
+        UpdateOne(ctx context.Context, filter interface{}, update interface{}, optn *options.UpdateOptions) (modified int64, error error)
 
         Find(ctx context.Context, filter interface{}) (cur Cursor, err error)
 
@@ -264,8 +265,8 @@ func (m *mongoCollection) InsertOne(ctx context.Context, document interface{}) (
         <span class="cov0" title="0">return insertedId.InsertedID, nil</span>
 }
 
-func (m *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error) <span class="cov0" title="0">{
-        insertedId, err := m.collection.UpdateOne(context.Background(), filter, update)
+func (m *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, update interface{}, optn *options.UpdateOptions) (modified int64, error error) <span class="cov0" title="0">{
+        insertedId, err := m.collection.UpdateOne(context.Background(), filter, update, optn)
         if err != nil </span><span class="cov0" title="0">{
                 m.onError(err)
                 return 0, err
@@ -1382,7 +1383,7 @@ func ExpectFindOneError(coll *mockgen.MockCollection, err error, times int) <spa
 }
 
 func ExpectUpdateOneError(coll *mockgen.MockCollection, err error, times int) <span class="cov0" title="0">{
-        coll.EXPECT().UpdateOne(gomock.Any(), gomock.Any(), gomock.Any()).Return(int64(0), err).Times(times)
+        coll.EXPECT().UpdateOne(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(int64(0), err).Times(times)
 }</span>
 
 func ExpectInsertOneError(coll *mockgen.MockCollection, err error, times int) <span class="cov0" title="0">{
@@ -1919,6 +1920,7 @@ import (
 
         gomock "github.com/golang/mock/gomock"
         db "github.com/nmarsollier/commongo/db"
+        options "go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // MockCollection is a mock of Collection interface.
@@ -2004,18 +2006,18 @@ func (mr *MockCollectionMockRecorder) ReplaceOne(ctx, filter, replacement interf
 }</span>
 
 // UpdateOne mocks base method.
-func (m *MockCollection) UpdateOne(ctx context.Context, filter, update interface{}) (int64, error) <span class="cov0" title="0">{
+func (m *MockCollection) UpdateOne(ctx context.Context, filter, update interface{}, optn *options.UpdateOptions) (int64, error) <span class="cov0" title="0">{
         m.ctrl.T.Helper()
-        ret := m.ctrl.Call(m, "UpdateOne", ctx, filter, update)
+        ret := m.ctrl.Call(m, "UpdateOne", ctx, filter, update, optn)
         ret0, _ := ret[0].(int64)
         ret1, _ := ret[1].(error)
         return ret0, ret1
 }</span>
 
 // UpdateOne indicates an expected call of UpdateOne.
-func (mr *MockCollectionMockRecorder) UpdateOne(ctx, filter, update interface{}) *gomock.Call <span class="cov0" title="0">{
+func (mr *MockCollectionMockRecorder) UpdateOne(ctx, filter, update, optn interface{}) *gomock.Call <span class="cov0" title="0">{
         mr.mock.ctrl.T.Helper()
-        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOne", reflect.TypeOf((*MockCollection)(nil).UpdateOne), ctx, filter, update)
+        return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOne", reflect.TypeOf((*MockCollection)(nil).UpdateOne), ctx, filter, update, optn)
 }</span>
 
 // MockCursor is a mock of Cursor interface.
