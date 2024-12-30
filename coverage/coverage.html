@@ -613,6 +613,7 @@ type RabbitPublisher[T any] interface {
         PublishForResult(data T, exchange string, routingKey string) error
         PublishTo(exchange string, routingKey string, data T) error
         Publish(data T) error
+        Logger() log.LogRusEntry
 }
 
 type rabbitPublisher[T any] struct {
@@ -718,6 +719,10 @@ func (c *rabbitPublisher[T]) publish(exchange string, routingKey string, data T,
 
         return nil</span>
 }
+
+func (c *rabbitPublisher[T]) Logger() log.LogRusEntry <span class="cov0" title="0">{
+        return c.log
+}</span>
 
 type publishMessage[T any] struct {
         CorrelationId string `json:"correlation_id" example:"123123" `
