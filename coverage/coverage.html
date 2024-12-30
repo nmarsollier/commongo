@@ -71,51 +71,53 @@
 				
 				<option value="file7">github.com/nmarsollier/commongo/log/logger.go (27.3%)</option>
 				
-				<option value="file8">github.com/nmarsollier/commongo/rbt/publisher.go (0.0%)</option>
+				<option value="file8">github.com/nmarsollier/commongo/rbt/consume_event.go (0.0%)</option>
 				
-				<option value="file9">github.com/nmarsollier/commongo/redisx/client.go (0.0%)</option>
+				<option value="file9">github.com/nmarsollier/commongo/rbt/publisher.go (0.0%)</option>
 				
-				<option value="file10">github.com/nmarsollier/commongo/rst/error_handler.go (0.0%)</option>
+				<option value="file10">github.com/nmarsollier/commongo/redisx/client.go (0.0%)</option>
 				
-				<option value="file11">github.com/nmarsollier/commongo/rst/tools.go (0.0%)</option>
+				<option value="file11">github.com/nmarsollier/commongo/rst/error_handler.go (0.0%)</option>
 				
-				<option value="file12">github.com/nmarsollier/commongo/security/repository.go (0.0%)</option>
+				<option value="file12">github.com/nmarsollier/commongo/rst/tools.go (0.0%)</option>
 				
-				<option value="file13">github.com/nmarsollier/commongo/security/schema.go (0.0%)</option>
+				<option value="file13">github.com/nmarsollier/commongo/security/repository.go (0.0%)</option>
 				
-				<option value="file14">github.com/nmarsollier/commongo/security/service.go (0.0%)</option>
+				<option value="file14">github.com/nmarsollier/commongo/security/schema.go (0.0%)</option>
 				
-				<option value="file15">github.com/nmarsollier/commongo/strs/json.go (0.0%)</option>
+				<option value="file15">github.com/nmarsollier/commongo/security/service.go (0.0%)</option>
 				
-				<option value="file16">github.com/nmarsollier/commongo/test/mktools/cache.go (0.0%)</option>
+				<option value="file16">github.com/nmarsollier/commongo/strs/json.go (0.0%)</option>
 				
-				<option value="file17">github.com/nmarsollier/commongo/test/mktools/httpx.go (0.0%)</option>
+				<option value="file17">github.com/nmarsollier/commongo/test/mktools/cache.go (0.0%)</option>
 				
-				<option value="file18">github.com/nmarsollier/commongo/test/mktools/logger.go (0.0%)</option>
+				<option value="file18">github.com/nmarsollier/commongo/test/mktools/httpx.go (0.0%)</option>
 				
-				<option value="file19">github.com/nmarsollier/commongo/test/mktools/mongo.go (0.0%)</option>
+				<option value="file19">github.com/nmarsollier/commongo/test/mktools/logger.go (0.0%)</option>
 				
-				<option value="file20">github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go (0.0%)</option>
+				<option value="file20">github.com/nmarsollier/commongo/test/mktools/mongo.go (0.0%)</option>
 				
-				<option value="file21">github.com/nmarsollier/commongo/test/mktools/rest.go (0.0%)</option>
+				<option value="file21">github.com/nmarsollier/commongo/test/mktools/rabbit_publisher.go (0.0%)</option>
 				
-				<option value="file22">github.com/nmarsollier/commongo/test/mktools/user.go (0.0%)</option>
+				<option value="file22">github.com/nmarsollier/commongo/test/mktools/rest.go (0.0%)</option>
 				
-				<option value="file23">github.com/nmarsollier/commongo/test/mockgen/errs_rest.go (0.0%)</option>
+				<option value="file23">github.com/nmarsollier/commongo/test/mktools/user.go (0.0%)</option>
 				
-				<option value="file24">github.com/nmarsollier/commongo/test/mockgen/errs_validation.go (0.0%)</option>
+				<option value="file24">github.com/nmarsollier/commongo/test/mockgen/errs_rest.go (0.0%)</option>
 				
-				<option value="file25">github.com/nmarsollier/commongo/test/mockgen/httpx_client.go (0.0%)</option>
+				<option value="file25">github.com/nmarsollier/commongo/test/mockgen/errs_validation.go (0.0%)</option>
 				
-				<option value="file26">github.com/nmarsollier/commongo/test/mockgen/log_logger.go (0.0%)</option>
+				<option value="file26">github.com/nmarsollier/commongo/test/mockgen/httpx_client.go (0.0%)</option>
 				
-				<option value="file27">github.com/nmarsollier/commongo/test/mockgen/mongo_collection.go (0.0%)</option>
+				<option value="file27">github.com/nmarsollier/commongo/test/mockgen/log_logger.go (0.0%)</option>
 				
-				<option value="file28">github.com/nmarsollier/commongo/test/mockgen/redisx_client.go (0.0%)</option>
+				<option value="file28">github.com/nmarsollier/commongo/test/mockgen/mongo_collection.go (0.0%)</option>
 				
-				<option value="file29">github.com/nmarsollier/commongo/test/mockgen/security_repository.go (0.0%)</option>
+				<option value="file29">github.com/nmarsollier/commongo/test/mockgen/redisx_client.go (0.0%)</option>
 				
-				<option value="file30">github.com/nmarsollier/commongo/test/mockgen/security_service.go (0.0%)</option>
+				<option value="file30">github.com/nmarsollier/commongo/test/mockgen/security_repository.go (0.0%)</option>
+				
+				<option value="file31">github.com/nmarsollier/commongo/test/mockgen/security_service.go (0.0%)</option>
 				
 				</select>
 			</div>
@@ -606,6 +608,143 @@ import (
         "encoding/json"
 
         "github.com/nmarsollier/commongo/log"
+        "github.com/nmarsollier/commongo/strs"
+        uuid "github.com/satori/go.uuid"
+        "github.com/streadway/amqp"
+)
+
+func ConsumeRabbitEvent[T any](
+        fluentUrl string,
+        rabbitUrl string,
+        serverName string,
+        exchangeName string,
+        channelType string,
+        queueName string,
+        routingKey string,
+        processIncomingMessage func(log.LogRusEntry, *InputMessage[T]),
+) error <span class="cov0" title="0">{
+        logger := RbtLogger(fluentUrl, serverName, uuid.NewV4().String())
+
+        conn, err := amqp.Dial(rabbitUrl)
+        if err != nil </span><span class="cov0" title="0">{
+                logger.Error(err)
+                return err
+        }</span>
+        <span class="cov0" title="0">defer conn.Close()
+
+        chn, err := conn.Channel()
+        if err != nil </span><span class="cov0" title="0">{
+                logger.Error(err)
+                return err
+        }</span>
+        <span class="cov0" title="0">defer chn.Close()
+
+        err = chn.ExchangeDeclare(
+                exchangeName, // name
+                channelType,  // type
+                false,        // durable
+                false,        // auto-deleted
+                false,        // internal
+                false,        // no-wait
+                nil,          // arguments
+        )
+        if err != nil </span><span class="cov0" title="0">{
+                logger.Error(err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">queue, err := chn.QueueDeclare(
+                queueName, // name
+                false,     // durable
+                false,     // delete when unused
+                false,     // exclusive
+                false,     // no-wait
+                nil,       // arguments
+        )
+        if err != nil </span><span class="cov0" title="0">{
+                logger.Error(err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">err = chn.QueueBind(
+                queue.Name,   // queue name
+                routingKey,   // routing key
+                exchangeName, // exchange
+                false,
+                nil)
+        if err != nil </span><span class="cov0" title="0">{
+                logger.Error(err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">mgs, err := chn.Consume(
+                queue.Name, // queue
+                "",         // consumer
+                false,      // auto-ack
+                false,      // exclusive
+                false,      // no-local
+                false,      // no-wait
+                nil,        // args
+        )
+        if err != nil </span><span class="cov0" title="0">{
+                logger.Error(err)
+                return err
+        }</span>
+
+        <span class="cov0" title="0">go func() </span><span class="cov0" title="0">{
+                for d := range mgs </span><span class="cov0" title="0">{
+                        newMessage := &amp;InputMessage[T]{}
+                        body := d.Body
+
+                        err = json.Unmarshal(body, newMessage)
+                        if err == nil </span><span class="cov0" title="0">{
+                                l := RbtLogger(fluentUrl, "cartgo", getCorrelationId(newMessage)).
+                                        WithField(log.LOG_FIELD_RABBIT_ACTION, "consume").
+                                        WithField(log.LOG_FIELD_RABBIT_EXCHANGE, exchangeName).
+                                        WithField(log.LOG_FIELD_RABBIT_QUEUE, queueName)
+
+                                l.Info("Incoming :", string(body))
+
+                                processIncomingMessage(l, newMessage)
+
+                                if err := d.Ack(false); err != nil </span><span class="cov0" title="0">{
+                                        l.Info("Failed ACK :", strs.ToJson(newMessage), err)
+                                }</span> else<span class="cov0" title="0"> {
+                                        l.Info("Consumed :", strs.ToJson(newMessage))
+                                }</span>
+                        } else<span class="cov0" title="0"> {
+                                logger.Error(err)
+                        }</span>
+                }
+        }()
+
+        <span class="cov0" title="0">logger.Info("Closed connection: ", &lt;-conn.NotifyClose(make(chan *amqp.Error)))
+
+        return nil</span>
+}
+
+type InputMessage[T any] struct {
+        CorrelationId string `json:"correlation_id" example:"123123" `
+        Message       T
+}
+
+func getCorrelationId[T any](c *InputMessage[T]) string <span class="cov0" title="0">{
+        value := c.CorrelationId
+
+        if len(value) == 0 </span><span class="cov0" title="0">{
+                value = uuid.NewV4().String()
+        }</span>
+
+        <span class="cov0" title="0">return value</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package rbt
+
+import (
+        "encoding/json"
+
+        "github.com/nmarsollier/commongo/log"
         "github.com/streadway/amqp"
 )
 
@@ -738,7 +877,7 @@ func RbtLogger(fluentUrl string, serverName string, correlationId string) log.Lo
 }</span>
 </pre>
 		
-		<pre class="file" id="file9" style="display: none">package redisx
+		<pre class="file" id="file10" style="display: none">package redisx
 
 import (
         "time"
@@ -774,7 +913,7 @@ func (r *redisClient) Set(key string, value interface{}, expiration time.Duratio
 }</span>
 </pre>
 		
-		<pre class="file" id="file10" style="display: none">package rst
+		<pre class="file" id="file11" style="display: none">package rst
 
 import (
         "errors"
@@ -874,7 +1013,7 @@ type ErrorData struct {
 }
 </pre>
 		
-		<pre class="file" id="file11" style="display: none">package rst
+		<pre class="file" id="file12" style="display: none">package rst
 
 import (
         "strings"
@@ -918,7 +1057,7 @@ func AbortWithError(c *gin.Context, err error) <span class="cov0" title="0">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file12" style="display: none">package security
+		<pre class="file" id="file13" style="display: none">package security
 
 import (
         "encoding/json"
@@ -1009,7 +1148,7 @@ func (r *securityRepository) GetToken(token string) (*User, bool) <span class="c
 }
 </pre>
 		
-		<pre class="file" id="file13" style="display: none">package security
+		<pre class="file" id="file14" style="display: none">package security
 
 // User is the logged-in user
 type User struct {
@@ -1029,7 +1168,7 @@ func (u *User) HasPermission(permission string) bool <span class="cov0" title="0
 }
 </pre>
 		
-		<pre class="file" id="file14" style="display: none">package security
+		<pre class="file" id="file15" style="display: none">package security
 
 import (
         "github.com/nmarsollier/commongo/errs"
@@ -1083,7 +1222,7 @@ func (s *securityService) Validate(token string) (*User, error) <span class="cov
 }
 </pre>
 		
-		<pre class="file" id="file15" style="display: none">package strs
+		<pre class="file" id="file16" style="display: none">package strs
 
 import "encoding/json"
 
@@ -1093,7 +1232,7 @@ func ToJson(obj interface{}) string <span class="cov0" title="0">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file16" style="display: none">// FILE AUTOMATICALLY GENERATED. ADAPTER TO USE GENERICS
+		<pre class="file" id="file17" style="display: none">// FILE AUTOMATICALLY GENERATED. ADAPTER TO USE GENERICS
 package mktools
 
 import (
@@ -1167,7 +1306,7 @@ func (mr *MockCacheMockRecorder[T]) Remove(key interface{}) *gomock.Call <span c
 }</span>
 </pre>
 		
-		<pre class="file" id="file17" style="display: none">package mktools
+		<pre class="file" id="file18" style="display: none">package mktools
 
 import (
         "bytes"
@@ -1198,7 +1337,7 @@ func ExpectHttpUnauthorized(mock *mockgen.MockHTTPClient) <span class="cov0" tit
 }</span>
 </pre>
 		
-		<pre class="file" id="file18" style="display: none">package mktools
+		<pre class="file" id="file19" style="display: none">package mktools
 
 import (
         "github.com/golang/mock/gomock"
@@ -1225,7 +1364,7 @@ func NewTestLogger(ctrl *gomock.Controller, withFieldCount int, errorCount int, 
 }</span>
 </pre>
 		
-		<pre class="file" id="file19" style="display: none">package mktools
+		<pre class="file" id="file20" style="display: none">package mktools
 
 import (
         gomock "github.com/golang/mock/gomock"
@@ -1262,7 +1401,7 @@ func ExpectFindOne[T any](coll *mockgen.MockCollection, userData *T, times int) 
 }
 </pre>
 		
-		<pre class="file" id="file20" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+		<pre class="file" id="file21" style="display: none">// Code generated by MockGen. DO NOT EDIT.
 // Source: ./rbt/publisher.go
 
 // Package mktools is a generated GoMock package.
@@ -1355,7 +1494,7 @@ func (mr *MockRabbitPublisherMockRecorder[T]) PublishTo(exchange, routingKey, da
 }</span>
 </pre>
 		
-		<pre class="file" id="file21" style="display: none">package mktools
+		<pre class="file" id="file22" style="display: none">package mktools
 
 import (
         "bytes"
@@ -1415,7 +1554,7 @@ func AssertBadRequestError(t *testing.T, w *httptest.ResponseRecorder) <span cla
 }</span>
 </pre>
 		
-		<pre class="file" id="file22" style="display: none">package mktools
+		<pre class="file" id="file23" style="display: none">package mktools
 
 import (
         "github.com/nmarsollier/commongo/security"
@@ -1441,7 +1580,7 @@ func TestAdminUser() *security.User <span class="cov0" title="0">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file23" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+		<pre class="file" id="file24" style="display: none">// Code generated by MockGen. DO NOT EDIT.
 // Source: ./errs/rest.go
 
 // Package mockgen is a generated GoMock package.
@@ -1505,7 +1644,7 @@ func (mr *MockRestErrorMockRecorder) Status() *gomock.Call <span class="cov0" ti
 }</span>
 </pre>
 		
-		<pre class="file" id="file24" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+		<pre class="file" id="file25" style="display: none">// Code generated by MockGen. DO NOT EDIT.
 // Source: ./errs/validation.go
 
 // Package mockgen is a generated GoMock package.
@@ -1570,7 +1709,7 @@ func (mr *MockValidationMockRecorder) Error() *gomock.Call <span class="cov0" ti
 }</span>
 </pre>
 		
-		<pre class="file" id="file25" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+		<pre class="file" id="file26" style="display: none">// Code generated by MockGen. DO NOT EDIT.
 // Source: ./httpx/client.go
 
 // Package mockgen is a generated GoMock package.
@@ -1622,7 +1761,7 @@ func (mr *MockHTTPClientMockRecorder) Do(req interface{}) *gomock.Call <span cla
 }</span>
 </pre>
 		
-		<pre class="file" id="file26" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+		<pre class="file" id="file27" style="display: none">// Code generated by MockGen. DO NOT EDIT.
 // Source: ./log/logger.go
 
 // Package mockgen is a generated GoMock package.
@@ -1766,7 +1905,7 @@ func (mr *MockLogRusEntryMockRecorder) WithField(key, value interface{}) *gomock
 }</span>
 </pre>
 		
-		<pre class="file" id="file27" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+		<pre class="file" id="file28" style="display: none">// Code generated by MockGen. DO NOT EDIT.
 // Source: ./db/collection.go
 
 // Package mockgen is a generated GoMock package.
@@ -1943,7 +2082,7 @@ func (mr *MockCursorMockRecorder) Next(ctx interface{}) *gomock.Call <span class
 }</span>
 </pre>
 		
-		<pre class="file" id="file28" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+		<pre class="file" id="file29" style="display: none">// Code generated by MockGen. DO NOT EDIT.
 // Source: ./redisx/client.go
 
 // Package mockgen is a generated GoMock package.
@@ -2010,7 +2149,7 @@ func (mr *MockRedisClientMockRecorder) Set(key, value, expiration interface{}) *
 }</span>
 </pre>
 		
-		<pre class="file" id="file29" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+		<pre class="file" id="file30" style="display: none">// Code generated by MockGen. DO NOT EDIT.
 // Source: ./security/repository.go
 
 // Package mockgen is a generated GoMock package.
@@ -2089,7 +2228,7 @@ func (mr *MockSecurityRepositoryMockRecorder) GetToken(token interface{}) *gomoc
 }</span>
 </pre>
 		
-		<pre class="file" id="file30" style="display: none">// Code generated by MockGen. DO NOT EDIT.
+		<pre class="file" id="file31" style="display: none">// Code generated by MockGen. DO NOT EDIT.
 // Source: ./security/service.go
 
 // Package mockgen is a generated GoMock package.
