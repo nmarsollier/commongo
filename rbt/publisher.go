@@ -11,6 +11,7 @@ type RabbitPublisher[T any] interface {
 	PublishForResult(data T, exchange string, routingKey string) error
 	PublishTo(exchange string, routingKey string, data T) error
 	Publish(data T) error
+	Logger() log.LogRusEntry
 }
 
 type rabbitPublisher[T any] struct {
@@ -115,6 +116,10 @@ func (c *rabbitPublisher[T]) publish(exchange string, routingKey string, data T,
 	c.log.Info("Rabbit publish ", exchange+" ", routingKey+" ", string(body))
 
 	return nil
+}
+
+func (c *rabbitPublisher[T]) Logger() log.LogRusEntry {
+	return c.log
 }
 
 type publishMessage[T any] struct {
