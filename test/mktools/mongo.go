@@ -14,7 +14,7 @@ func ExpectFindOneError(coll *mockgen.MockCollection, err error, times int) {
 }
 
 func ExpectUpdateOneError(coll *mockgen.MockCollection, err error, times int) {
-	coll.EXPECT().UpdateOne(gomock.Any(), gomock.Any(), gomock.Any()).Return(int64(0), err).Times(times)
+	coll.EXPECT().UpdateOne(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(int64(0), err).Times(times)
 }
 
 func ExpectInsertOneError(coll *mockgen.MockCollection, err error, times int) {

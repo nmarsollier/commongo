@@ -6,6 +6,7 @@ import (
 	"github.com/nmarsollier/commongo/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Collection interface {
@@ -13,7 +14,7 @@ type Collection interface {
 
 	InsertOne(ctx context.Context, document interface{}) (id interface{}, error error)
 
-	UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error)
+	UpdateOne(ctx context.Context, filter interface{}, update interface{}, optn *options.UpdateOptions) (modified int64, error error)
 
 	Find(ctx context.Context, filter interface{}) (cur Cursor, err error)
 
@@ -77,8 +78,8 @@ func (m *mongoCollection) InsertOne(ctx context.Context, document interface{}) (
 	return insertedId.InsertedID, nil
 }
 
-func (m *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, update interface{}) (modified int64, error error) {
-	insertedId, err := m.collection.UpdateOne(context.Background(), filter, update)
+func (m *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, update interface{}, optn *options.UpdateOptions) (modified int64, error error) {
+	insertedId, err := m.collection.UpdateOne(context.Background(), filter, update, optn)
 	if err != nil {
 		m.onError(err)
 		return 0, err

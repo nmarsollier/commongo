@@ -10,6 +10,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	db "github.com/nmarsollier/commongo/db"
+	options "go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // MockCollection is a mock of Collection interface.
@@ -95,18 +96,18 @@ func (mr *MockCollectionMockRecorder) ReplaceOne(ctx, filter, replacement interf
 }
 
 // UpdateOne mocks base method.
-func (m *MockCollection) UpdateOne(ctx context.Context, filter, update interface{}) (int64, error) {
+func (m *MockCollection) UpdateOne(ctx context.Context, filter, update interface{}, optn *options.UpdateOptions) (int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateOne", ctx, filter, update)
+	ret := m.ctrl.Call(m, "UpdateOne", ctx, filter, update, optn)
 	ret0, _ := ret[0].(int64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UpdateOne indicates an expected call of UpdateOne.
-func (mr *MockCollectionMockRecorder) UpdateOne(ctx, filter, update interface{}) *gomock.Call {
+func (mr *MockCollectionMockRecorder) UpdateOne(ctx, filter, update, optn interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOne", reflect.TypeOf((*MockCollection)(nil).UpdateOne), ctx, filter, update)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOne", reflect.TypeOf((*MockCollection)(nil).UpdateOne), ctx, filter, update, optn)
 }
 
 // MockCursor is a mock of Cursor interface.
